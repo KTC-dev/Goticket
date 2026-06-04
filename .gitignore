@@ -1,0 +1,29 @@
+# Node modules
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Env files
+*.env
+backend/.env
+frontend/.env
+
+# Logs
+*.log
+/tmp/
+
+# VSCode settings
+.vscode/
+
+# Build outputs
+frontend/build/
+
+# OS files
+.DS_Store
+thumbs.db
+
+# NPM
+package-lock.json
+
+# Ignore IDEA
+.idea/

@@ -1,0 +1,23 @@
+import React from 'react';
+
+const WhatsAppChatButton = ({ phone = '18004688438', message = 'Hello Goticket support, I need help with my tickets and payments.' }) => {
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${encodedMessage}`;
+
+    return (
+        <a
+            className="whatsapp-chat-button"
+            href={whatsappUrl}
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-label="Chat with support on WhatsApp"
+        >
+            <span>Chat with Support</span>
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                <path fill="currentColor" d="M20.52 3.48A11.93 11.93 0 0 0 12 0C5.38 0 0 5.37 0 12c0 2.12.55 4.14 1.6 5.94L0 24l6.35-1.66A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.24-6.2-3.48-8.52Zm-8.5 17.2c-1.9 0-3.7-.5-5.33-1.4l-.38-.23-3.78.99 1.01-3.7-.24-.38A9.94 9.94 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10Zm5.17-6.5c-.28-.14-1.65-.81-1.9-.9-.25-.1-.43-.14-.61.14-.18.28-.7.9-.86 1.08-.16.18-.32.2-.6.07-.28-.14-1.2-.44-2.29-1.41-.85-.76-1.43-1.69-1.6-1.97-.17-.28-.02-.43.12-.57.12-.12.28-.32.43-.48.15-.16.2-.28.3-.47.1-.18.05-.34-.02-.48-.07-.14-.62-1.5-.85-2.06-.22-.54-.45-.47-.62-.48-.16-.01-.35-.01-.53-.01-.18 0-.48.07-.73.34-.25.26-.95.93-.95 2.27 0 1.34.97 2.63 1.1 2.81.14.18 1.9 2.95 4.6 4.13 1.88.83 2.61.93 3.14.86.51-.07 1.65-.68 1.88-1.34.23-.66.23-1.23.16-1.35-.07-.12-.25-.18-.53-.32Z" />
+            </svg>
+        </a>
+    );
+};
+
+export default WhatsAppChatButton;

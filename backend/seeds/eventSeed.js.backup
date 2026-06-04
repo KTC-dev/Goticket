@@ -1,0 +1,125 @@
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
+
+const events = [
+  {
+    title: 'FIFA World Cup 2026 - Opening Match',
+    description: 'The opening match of the FIFA World Cup 2026 tournament',
+    date: new Date('2026-06-11T19:00:00Z'),
+    venue: 'Estadio Azteca',
+    location: 'Mexico City, Mexico',
+    category: 'Opening Ceremony',
+    teams: ['Mexico', 'TBD'],
+    price: 150,
+    available_tickets: 50000,
+    total_tickets: 50000,
+    image_url: 'https://example.com/images/worldcup-opening.jpg'
+  },
+  {
+    title: 'FIFA World Cup 2026 - USA vs Canada',
+    description: 'Group stage match between USA and Canada',
+    date: new Date('2026-06-15T16:00:00Z'),
+    venue: 'Allegiant Stadium',
+    location: 'Las Vegas, USA',
+    category: 'Match',
+    teams: ['USA', 'Canada'],
+    price: 120,
+    available_tickets: 65000,
+    total_tickets: 65000,
+    image_url: 'https://example.com/images/usa-vs-canada.jpg'
+  },
+  {
+    title: 'FIFA World Cup 2026 - Brazil vs Argentina',
+    description: 'High-stakes group stage match between South American rivals',
+    date: new Date('2026-06-20T20:00:00Z'),
+    venue: 'AT&T Stadium',
+    location: 'Arlington, USA',
+    category: 'Match',
+    teams: ['Brazil', 'Argentina'],
+    price: 180,
+    available_tickets: 70000,
+    total_tickets: 70000,
+    image_url: 'https://example.com/images/brazil-vs-argentina.jpg'
+  },
+  {
+    title: 'FIFA World Cup 2026 - Semifinal 1',
+    description: 'First semifinal match of the tournament',
+    date: new Date('2026-07-10T18:00:00Z'),
+    venue: 'MetLife Stadium',
+    location: 'East Rutherford, USA',
+    category: 'Match',
+    teams: ['TBD', 'TBD'],
+    price: 250,
+    available_tickets: 60000,
+    total_tickets: 60000,
+    image_url: 'https://example.com/images/semifinal1.jpg'
+  },
+  {
+    title: 'FIFA World Cup 2026 - Final',
+    description: 'The final match to determine the World Cup champion',
+    date: new Date('2026-07-14T16:00:00Z'),
+    venue: 'Hard Rock Stadium',
+    location: 'Miami Gardens, USA',
+    category: 'Final',
+    teams: ['TBD', 'TBD'],
+    price: 500,
+    available_tickets: 40000,
+    total_tickets: 40000,
+    image_url: 'https://example.com/images/worldcup-final.jpg'
+  }
+];
+
+const seedEvents = async () => {
+  try {
+    // Initialize Supabase client
+    const supabaseUrl = process.env.SUPABASE_URL || '';
+    const supabaseKey = process.env.SUPABASE_ANON_KEY || '';
+    
+    if (!supabaseUrl || !supabaseKey) {
+      throw new Error('Supabase URL and Anon Key must be provided in environment variables');
+    }
+    
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    
+    // Clear existing events
+    const { error: deleteError } = await supabase
+      .from('events')
+      .delete()
+      .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all except a dummy ID to avoid deleting everything
+    
+    // If the above doesn't work (because we might not have any events yet), let's try a different approach
+    // Actually, let's just get all events first and delete them individually if needed
+    const { data: existingEvents, error: selectError } = await supabase
+      .from('events')
+      .select('id');
+    
+    if (selectError) throw selectError;
+    
+    if (existingEvents && existingEvents.length > 0) {
+      const { error: deleteAllError } = await supabase
+        .from('events')
+        .delete()
+        .in('id', existingEvents.map(event => event.id));
+      
+      if (deleteAllError) throw deleteAllError;
+    }
+    
+    console.log('Cleared existing events');
+    
+    // Insert new events
+    const { data: createdEvents, error: insertError } = await supabase
+      .from('events')
+      .insert(events)
+      .select();
+    
+    if (insertError) throw insertError;
+    
+    console.log(`Seeded ${createdEvents.length} events`);
+    process.exit(0);
+  } catch (error) {
+    console.error('Error seeding events:', error);
+    process.exit(1);
+  }
+};
+
+module.exports = seedEvents;
