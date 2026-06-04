@@ -15,10 +15,12 @@ const Events = () => {
   const [paymentInfo, setPaymentInfo] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
 
+  // Fallback API Base setup globally for the component scope
+  const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5000';
       const response = await fetch(`${apiBase}/api/events`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -78,131 +80,131 @@ const Events = () => {
         payload.price = price;
       }
 
-      const response = await fetch('http://localhost:5000/api/tickets', {
-        const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-        const response = await fetch(`${apiBase}/api/tickets`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
+      // --- CRASH FIXED HERE ---
+      const response = await fetch(`${apiBase}/api/tickets`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-        if(!response.ok) {
-          const errorText = await response.text();
-      let message = `HTTP error! status: ${response.status}`;
-      try {
-        const json = JSON.parse(errorText);
-        if (json?.message) message = `${json.message} (${response.status})`;
-      } catch (err) {
-        if (errorText) message = `${errorText} (${response.status})`;
+      if (!response.ok) {
+        const errorText = await response.text();
+        let message = `HTTP error! status: ${response.status}`;
+        try {
+          const json = JSON.parse(errorText);
+          if (json?.message) message = `${json.message} (${response.status})`;
+        } catch (err) {
+          if (errorText) message = `${errorText} (${response.status})`;
+        }
+        throw new Error(message);
       }
-      throw new Error(message);
-    }
 
       const data = await response.json();
-    setPaymentInfo({
-      seatNumber: data.seat_number,
-      section: data.section,
-      eventId: event_id
-    });
+      setPaymentInfo({
+        seatNumber: data.seat_number,
+        section: data.section,
+        eventId: event_id
+      });
 
-    const eventsResponse = await fetch('http://localhost:5000/api/events');
-    const eventsData = await eventsResponse.json();
-    setEvents(eventsData);
-  } catch (err) {
-    alert(`Failed to purchase ticket: ${err.message}`);
-  } finally {
-    setPurchaseLoading(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(event_id);
-      return newSet;
-    });
-  }
-};
+      // Updated hardcoded URL to use the dynamic apiBase
+      const eventsResponse = await fetch(`${apiBase}/api/events`);
+      const eventsData = await eventsResponse.json();
+      setEvents(eventsData);
+    } catch (err) {
+      alert(`Failed to purchase ticket: ${err.message}`);
+    } finally {
+      setPurchaseLoading(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(event_id);
+        return newSet;
+      });
+    }
+  };
 
-if (loading) return <div className="events-page">Loading events...</div>;
-if (error) return <div className="events-page">Error: {error}</div>;
+  if (loading) return <div className="events-page">Loading events...</div>;
+  if (error) return <div className="events-page">Error: {error}</div>;
 
-return (
-  <div className="events-page">
-    <div className="events-header">
-      <h2>FIFA World Cup 2026 Events</h2>
-      <div className="events-controls">
-        <button className="refresh-button" onClick={fetchEvents}>Refresh matches</button>
-        {lastUpdated && (
-          <span className="last-updated">Last updated: {lastUpdated.toLocaleTimeString()}</span>
-        )}
-      </div>
-    </div>
-
-    {paymentInfo && (
-      <div className="payment-banner">
-        <p>
-          Ticket reserved: <strong>Seat {paymentInfo.seatNumber || paymentInfo.seat_number}</strong>,
-          Section: <strong>{paymentInfo.section}</strong>.
-        </p>
-        <div className="event-actions">
-          <button
-            className="buy-button"
-            onClick={() => window.open(WHATSAPP_PAYMENT_LINK, '_blank', 'noopener')}
-          >
-            Continue payment on WhatsApp
-          </button>
-          <button
-            className="hospitality-button"
-            onClick={() => window.location.href = `mailto:${SUPPORT_EMAILS}?subject=Ticket%20Payment%20Confirmation&body=I%20reserved%20seat%20${encodeURIComponent(paymentInfo.seatNumber || paymentInfo.seat_number)}%20for%20event%20${encodeURIComponent(paymentInfo.eventId || paymentInfo.event_id)}.`}
-          >
-            Confirm by email
-          </button>
-          <button className="buy-button" onClick={() => setPaymentInfo(null)}>Dismiss</button>
+  return (
+    <div className="events-page">
+      <div className="events-header">
+        <h2>FIFA World Cup 2026 Events</h2>
+        <div className="events-controls">
+          <button className="refresh-button" onClick={fetchEvents}>Refresh matches</button>
+          {lastUpdated && (
+            <span className="last-updated">Last updated: {lastUpdated.toLocaleTimeString()}</span>
+          )}
         </div>
       </div>
-    )}
 
-    {events.length === 0 ? (
-      <p>No events available at the moment.</p>
-    ) : (
-      <div className="events-grid">
-        {events.map(event => (
-          <div key={event.id} className="event-card">
-            <h3>{event.title}</h3>
-            <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
-            <p><strong>Venue:</strong> {event.venue}</p>
-            <p><strong>Location:</strong> {event.location}</p>
-            <p><strong>Teams:</strong> {event.teams.join(' vs ')}</p>
-            <p><strong>Price:</strong> ${event.price}</p>
-            <p><strong>Available Tickets:</strong> {event.available_tickets}</p>
-            <p className="hospitality-note">Upgrade to hospitality for a premium matchday experience.</p>
-
-            <div className="event-actions">
-              {event.available_tickets > 0 ? (
-                <>
-                  <button
-                    className="buy-button"
-                    onClick={() => handleBuyTicket(event.id)}
-                    disabled={purchaseLoading.has(event.id)}
-                  >
-                    {purchaseLoading.has(event.id) ? 'Processing...' : 'Buy Ticket'}
-                  </button>
-                  <button
-                    className="hospitality-button"
-                    onClick={() => handleBuyHospitality(event)}
-                    disabled={purchaseLoading.has(event.id)}
-                  >
-                    {purchaseLoading.has(event.id) ? 'Processing...' : `Buy Hospitality +$150`}
-                  </button>
-                </>
-              ) : (
-                <button className="buy-button disabled">Sold Out</button>
-              )}
-            </div>
+      {paymentInfo && (
+        <div className="payment-banner">
+          <p>
+            Ticket reserved: <strong>Seat {paymentInfo.seatNumber || paymentInfo.seat_number}</strong>,
+            Section: <strong>{paymentInfo.section}</strong>.
+          </p>
+          <div className="event-actions">
+            <button
+              className="buy-button"
+              onClick={() => window.open(WHATSAPP_PAYMENT_LINK, '_blank', 'noopener')}
+            >
+              Continue payment on WhatsApp
+            </button>
+            <button
+              className="hospitality-button"
+              onClick={() => window.location.href = `mailto:${SUPPORT_EMAILS}?subject=Ticket%20Payment%20Confirmation&body=I%20reserved%20seat%20${encodeURIComponent(paymentInfo.seatNumber || paymentInfo.seat_number)}%20for%20event%20${encodeURIComponent(paymentInfo.eventId || paymentInfo.event_id)}.`}
+            >
+              Confirm by email
+            </button>
+            <button className="buy-button" onClick={() => setPaymentInfo(null)}>Dismiss</button>
           </div>
-        ))}
-      </div>
-    )}
-  </div>
-);
+        </div>
+      )}
+
+      {events.length === 0 ? (
+        <p>No events available at the moment.</p>
+      ) : (
+        <div className="events-grid">
+          {events.map(event => (
+            <div key={event.id} className="event-card">
+              <h3>{event.title}</h3>
+              <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
+              <p><strong>Venue:</strong> {event.venue}</p>
+              <p><strong>Location:</strong> {event.location}</p>
+              <p><strong>Teams:</strong> {event.teams.join(' vs ')}</p>
+              <p><strong>Price:</strong> ${event.price}</p>
+              <p><strong>Available Tickets:</strong> {event.available_tickets}</p>
+              <p className="hospitality-note">Upgrade to hospitality for a premium matchday experience.</p>
+
+              <div className="event-actions">
+                {event.available_tickets > 0 ? (
+                  <>
+                    <button
+                      className="buy-button"
+                      onClick={() => handleBuyTicket(event.id)}
+                      disabled={purchaseLoading.has(event.id)}
+                    >
+                      {purchaseLoading.has(event.id) ? 'Processing...' : 'Buy Ticket'}
+                    </button>
+                    <button
+                      className="hospitality-button"
+                      onClick={() => handleBuyHospitality(event)}
+                      disabled={purchaseLoading.has(event.id)}
+                    >
+                      {purchaseLoading.has(event.id) ? 'Processing...' : `Buy Hospitality +$150`}
+                    </button>
+                  </>
+                ) : (
+                  <button className="buy-button disabled">Sold Out</button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Events;
