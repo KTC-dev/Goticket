@@ -16,6 +16,9 @@ const Events = () => {
   const [paymentInfo, setPaymentInfo] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
   
+  // Quantity state for each event (keyed by event ID)
+  const [quantities, setQuantities] = useState({});
+  
   // Filter states
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedVenue, setSelectedVenue] = useState('');
@@ -41,6 +44,17 @@ const Events = () => {
       // Extract unique venues
       const uniqueVenues = [...new Set(data.map(event => event.venue))];
       setVenues(uniqueVenues.sort());
+      
+      // Initialize quantities for new events
+      setQuantities(prev => {
+        const newQuantities = {...prev};
+        data.forEach(event => {
+          if (!(event.id in newQuantities)) {
+            newQuantities[event.id] = 1;
+          }
+        });
+        return newQuantities;
+      });
       
       setLastUpdated(new Date());
       setLoading(false);
@@ -95,7 +109,15 @@ const Events = () => {
     applyFilters();
   }, [searchQuery, selectedVenue, sortOption, events]);
 
-  const handleBuyTicket = async (eventId, quantity = 1) => {
+  const handleQuantityChange = (eventId, change) => {
+    setQuantities(prev => {
+      const newQuantity = Math.max(1, Math.min(10, (prev[eventId] || 1) + change));
+      return {...prev, [eventId]: newQuantity};
+    });
+  };
+
+  const handleBuyTicket = async (eventId) => {
+    const quantity = quantities[eventId] || 1;
     await purchaseTicket({
       event_id: eventId,
       seat_number: `A${Math.floor(Math.random() * 20) + 1}`,
@@ -103,17 +125,28 @@ const Events = () => {
       premium: false,
       quantity: quantity
     });
+    // Reset quantity after purchase
+    setQuantities(prev => ({
+      ...prev,
+      [eventId]: 1
+    }));
   };
 
-  const handleBuyHospitality = async (event, quantity = 1) => {
+  const handleBuyHospitality = async (event) => {
+    const quantity = quantities[event.id] || 1;
     await purchaseTicket({
       event_id: event.id,
       seat_number: `HOSP-${Math.floor(Math.random() * 100) + 1}`,
       section: 'Hospitality',
       premium: true,
-      price: event.price + 150,
+      price: event.price,
       quantity: quantity
     });
+    // Reset quantity after purchase
+    setQuantities(prev => ({
+      ...prev,
+      [event.id]: 1
+    }));
   };
 
   const purchaseTicket = async ({ event_id, seat_number, section, premium, price, quantity = 1 }) => {
@@ -259,75 +292,76 @@ const Events = () => {
         <p>No events match your filters.</p>
       ) : (
         <div className="events-grid">
-          {filteredEvents.map(event => (
-            <div key={event.id} className="event-card">
-              <h3>{event.title}</h3>
-              <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
-              <p><strong>Venue:</strong> {event.venue}</p>
-              <p><strong>Teams:</strong> {event.teams.join(' vs ')}</p>
-              <p><strong>Price:</strong> ${event.price}</p>
-              <p><strong>Available Tickets:</strong> {event.available_tickets}</p>
-              
-              {/* Stock Status Badge */}
-              {event.available_tickets === 0 && (
-                <span className="badge badge-sold-out">Sold Out</span>
-              )}
-              {event.available_tickets > 0 && event.available_tickets <= 100 && (
-                <span className="badge badge-low-stock">Almost Gone!</span>
-              )}
-              {event.available_tickets > 100 && (
-                <span className="badge badge-available">Available</span>
-              )}
-              
-              <p className="hospitality-note">Upgrade to hospitality for a premium matchday experience.</p>
-
-              <div className="event-actions">
-                {event.available_tickets > 0 ? (
-                  <>
-                    {/* Quantity Selector */}
-                    <div className="quantity-selector">
-                      <button
-                        onClick={() => {
-                          // This would be handled per-event in a real implementation
-                          // For now, we'll use a default quantity of 1
-                        }}
-                        disabled={true}
-                      >
-                        -
-                      </button>
-                      <span>1</span>
-                      <button
-                        onClick={() => {
-                          // This would be handled per-event in a real implementation
-                          // For now, we'll use a default quantity of 1
-                        }}
-                        disabled={true}
-                      >
-                        +
-                      </button>
-                    </div>
-                    
-                    <button
-                      className="buy-button"
-                      onClick={() => handleBuyTicket(event.id)}
-                      disabled={purchaseLoading.has(event.id)}
-                    >
-                      {purchaseLoading.has(event.id) ? 'Processing...' : 'Buy Ticket'}
-                    </button>
-                    <button
-                      className="hospitality-button"
-                      onClick={() => handleBuyHospitality(event)}
-                      disabled={purchaseLoading.has(event.id)}
-                    >
-                      {purchaseLoading.has(event.id) ? 'Processing...' : `Buy Hospitality +$150`}
-                    </button>
-                  </>
-                ) : (
-                  <button className="buy-button disabled">Sold Out</button>
+          {filteredEvents.map(event => {
+            const quantity = quantities[event.id] || 1;
+            const totalPrice = (event.price * quantity).toFixed(2);
+            
+            return (
+              <div key={event.id} className="event-card">
+                <h3>{event.title}</h3>
+                <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
+                <p><strong>Venue:</strong> {event.venue}</p>
+                <p><strong>Teams:</strong> {event.teams.join(' vs ')}</p>
+                <p><strong>Price:</strong> ${event.price}</p>
+                <p><strong>Available Tickets:</strong> {event.available_tickets}</p>
+                
+                {/* Stock Status Badge */}
+                {event.available_tickets === 0 && (
+                  <span className="badge badge-sold-out">Sold Out</span>
                 )}
+                {event.available_tickets > 0 && event.available_tickets <= 100 && (
+                  <span className="badge badge-low-stock">Almost Gone!</span>
+                )}
+                {event.available_tickets > 100 && (
+                  <span className="badge badge-available">Available</span>
+                )}
+                
+                <p className="hospitality-note">Upgrade to hospitality for a premium matchday experience.</p>
+
+                <div className="event-actions">
+                  {event.available_tickets > 0 ? (
+                    <>
+                      {/* Quantity Selector */}
+                      <div className="quantity-selector">
+                        <button
+                          onClick={() => handleQuantityChange(event.id, -1)}
+                          disabled={quantity <= 1}
+                        >
+                          -
+                        </button>
+                        <span>{quantity}</span>
+                        <button
+                          onClick={() => handleQuantityChange(event.id, 1)}
+                          disabled={quantity >= 10}
+                        >
+                          +
+                        </button>
+                      </div>
+                      
+                      <p className="total-price">Total: ${totalPrice}</p>
+                      
+                      <button
+                        className="buy-button"
+                        onClick={() => handleBuyTicket(event.id)}
+                        disabled={purchaseLoading.has(event.id)}
+                      >
+                        {purchaseLoading.has(event.id) ? 'Processing...' : 'Buy Ticket'}
+                      </button>
+                      <button
+                        className="hospitality-button"
+                        onClick={() => handleBuyHospitality(event)}
+                        disabled={purchaseLoading.has(event.id)}
+                      >
+                        {purchaseLoading.has(event.id) ? 'Processing...' : `Buy Hospitality +$150`}
+                      </button>
+                    </>
+                  ) : (
+                    <button className="buy-button disabled">Sold Out</button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
