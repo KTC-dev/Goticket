@@ -50,14 +50,22 @@ const Home = () => {
           
           {/* Countdown Timer */}
           <div className="countdown-timer">
-            <span className="countdown-number">{countdown.days}</span>
-            <span className="countdown-label">Days</span>
-            <span className="countdown-number">{countdown.hours}</span>
-            <span className="countdown-label">Hours</span>
-            <span className="countdown-number">{countdown.minutes}</span>
-            <span className="countdown-label">Minutes</span>
-            <span className="countdown-number">{countdown.seconds}</span>
-            <span className="countdown-label">Seconds</span>
+            <div className="countdown-number">
+              <span>{countdown.days}</span>
+              <span>Days</span>
+            </div>
+            <div className="countdown-number">
+              <span>{countdown.hours}</span>
+              <span>Hours</span>
+            </div>
+            <div className="countdown-number">
+              <span>{countdown.minutes}</span>
+              <span>Minutes</span>
+            </div>
+            <div className="countdown-number">
+              <span>{countdown.seconds}</span>
+              <span>Seconds</span>
+            </div>
           </div>
           
           {/* Browse Events CTA Button */}

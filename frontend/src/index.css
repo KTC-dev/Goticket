@@ -1,3 +1,612 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f6f9; /* Light grey background as requested */
+  color: #333;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.App {
+  text-align: center;
+}
+
+/* Mobile-first Header Styles */
+.App-header {
+  background-color: #0a2342; /* Dark navy background as requested */
+  color: white;
+  padding: 12px 16px; /* Reduced padding */
+  text-align: left;
+  position: relative;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo/Wordmark */
+.App-header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+/* Hamburger Menu Button */
+.hamburger-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.hamburger-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile Navigation Menu */
+.mobile-nav {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #0a2342;
+  padding: 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 1000;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mobile-nav .nav-link {
+  display: block;
+  padding: 8px 0;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 4px;
+}
+
+.mobile-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Desktop Navigation (hidden on mobile) */
+.desktop-nav {
+  display: none;
+}
+
+.desktop-nav .nav-link {
+  color: white;
+  text-decoration: none;
+  margin-right: 15px;
+  font-weight: 500;
+  padding: 4px 0;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.desktop-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Show desktop nav on larger screens */
+@media (min-width: 768px) {
+  .hamburger-btn {
+    display: none;
+  }
+  
+  .mobile-nav {
+    display: none;
+  }
+  
+  .desktop-nav {
+    display: block;
+  }
+  
+  .App-header {
+    padding: 16px 24px;
+  }
+  
+  .App-header .logo {
+    font-size: 1.75rem;
+  }
+}
+
+.App-header h1 {
+  display: none; /* Hide the old large title */
+}
+
+.App-header nav {
+  margin-top: 0;
+}
+
+.App-header nav a {
+  color: white;
+  text-decoration: none;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.App-header nav a:hover {
+  text-decoration: underline;
+}
+
+.App-footer {
+  background-color: #0a2342;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+main {
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 120px); /* Account for smaller header and footer */
+}
+
+/* Features Section */
+.features {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.feature {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  width: 250px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-left: 4px solid #2a9d8f; /* Teal left border as requested */
+}
+
+.feature h3 {
+  color: #002244;
+  margin-top: 0;
+}
+
+.events-page, .tickets-page, .about-page {
+  background: white;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.events-grid, .tickets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.event-card, .ticket-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: left;
+}
+
+.event-card h3, .ticket-card h3 {
+  color: #002244;
+  margin-top: 0;
+}
+
+.event-card p, .ticket-card p {
+  margin: 8px 0;
+}
+
+/* Form Styles */
+.auth-call-to-action, .login-page, .register-page {
+  background: white;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.auth-call-to-action h3, .login-page h2, .register-page h2 {
+  color: #002244;
+  margin-top: 0;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.auth-call-to-action p, .login-page p, .register-page p {
+  margin: 12px 0;
+  text-align: center;
+}
+
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn {
+  text-decoration: none;
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: block;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #0a2342;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #081c33;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #0a2342;
+  border: 2px solid #0a2342;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(10, 35, 66, 0.08);
+}
+
+/* Input Styles */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin: 8px 0 16px 0;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #0a2342;
+  box-shadow: 0 0 0 2px rgba(10, 35, 66, 0.2);
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Button Styles */
+.buy-button {
+  background-color: #0a2342;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.buy-button:hover:not(.disabled) {
+  background-color: #081c33;
+}
+
+.buy-button.disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.status-pending {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+.status-confirmed {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.status-cancelled {
+  color: #f44336;
+  font-weight: bold;
+}
+
+.status-used {
+  color: #9e9e9e;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .App-header {
+    padding: 12px 16px;
+  }
+   
+  .App-header nav {
+    text-align: center;
+  }
+   
+  .App-header nav a {
+    margin: 0 8px;
+    display: inline-block;
+  }
+   
+  .features {
+    flex-direction: column;
+    align-items: center;
+  }
+   
+  .feature {
+    width: 85%;
+    max-width: 350px;
+  }
+   
+  .events-grid, .tickets-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.event-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.hospitality-note {
+  color: #475569;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.hospitality-button {
+  background-color: #1e293b;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hospitality-button:hover {
+  background-color: #111827;
+  transform: translateY(-1px);
+}
+
+.hospitality-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.support-page .support-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.support-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+  text-align: left;
+}
+
+.support-card h3 {
+  color: #002244;
+  margin-top: 0;
+}
+
+.support-note {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* WhatsApp Button Fix */
+.whatsapp-chat-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 50px;
+  background-color: #25D366;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: fixed;
+  bottom: 24px;
+  right: 16px;
+  z-index: 1000;
+}
+
+.whatsapp-chat-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.22);
+}
+
+.floating-chat-container {
+  position: static; /* Override previous positioning */
+  width: 100%;
+  height: 0;
+}
+
+.floating-chat-container .whatsapp-chat-button {
+  background-color: #128C7E;
+  padding: 12px 18px;
+}
+
+.floating-chat-container .whatsapp-chat-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* WhatsApp Payment Button */
+.whatsapp-payment-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #25D366;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 1rem;
+}
+
+.whatsapp-payment-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.22);
+}
+
+/* Homepage Hero CTA Button */
+.home-cta {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 14px 28px;
+  background-color: #2a9d8f;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.home-cta:hover {
+  background-color: #237a73;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Stadium Hero Banner */
+.stadium-banner {
+  width: 100%;
+  height: 200px;
+  background-image: url('https://images.unsplash.com/photo-1508098682722-e99c643e7f0b?w=800');
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  margin: 16px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.stadium-banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.6));
+}
+
+/* Stadium Banner Content */
+.stadium-banner-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  width: 90%;
+  max-width: 800px;
+  padding: 0 16px;
+}
+
+.stadium-banner-content h2 {
+  margin: 0 0 12px 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.stadium-banner-content p {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* Trust Badges */
+.trust-badges {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 16px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 1px solid #eee;
+}
+
+.trust-badge .badge-icon {
+  font-size: 1.5rem;
+}
+
+.trust-badge .badge-text {
+  font-weight: 500;
+  color: #333;
+}
+
 /* Countdown Timer */
 .countdown-timer {
   display: flex;
@@ -5,4 +614,31 @@
   gap: 12px;
   margin: 16px 0;
   flex-wrap: wrap;
+}
+
+.countdown-number {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,0.2);
+  padding: 8px 12px;
+  border-radius: 8px;
+  min-width: 40px;
+}
+
+.countdown-number span:first-child {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+}
+
+.countdown-number span:last-child {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.8);
+  text-transform: uppercase;
+}
+
+/* Ensure proper padding on all pages */
+body {
+  overflow-x: hidden;
 }
