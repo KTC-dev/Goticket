@@ -381,11 +381,49 @@ label {
   }
 }
 
+/* Filter Bar Styles */
+.filter-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+  padding: 0 10px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group label {
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.filter-group input,
+.filter-group select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+  outline: none;
+  border-color: #0a2342;
+  box-shadow: 0 0 0 2px rgba(10, 35, 66, 0.2);
+}
+
+/* Event Actions Enhancements */
 .event-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 16px;
+  align-items: center;
 }
 
 .hospitality-note {
@@ -418,6 +456,71 @@ label {
   cursor: not-allowed;
 }
 
+/* Quantity Selector */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.quantity-selector button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #ddd;
+  background-color: white;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.quantity-selector button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+}
+
+.quantity-selector button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity-selector span {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Stock Status Badges */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.badge-sold-out {
+  background-color: #f44336;
+  color: white;
+}
+
+.badge-low-stock {
+  background-color: #ff9800;
+  color: white;
+}
+
+.badge-available {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* Support Page Styles */
 .support-page .support-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -575,6 +678,66 @@ label {
   margin: 0 0 8px 0;
   font-size: 1rem;
   opacity: 0.9;
+}
+
+/* Trust Badges */
+.trust-badges {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 16px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 1px solid #eee;
+}
+
+.trust-badge .badge-icon {
+  font-size: 1.5rem;
+}
+
+.trust-badge .badge-text {
+  font-weight: 500;
+  color: #333;
+}
+
+/* Countdown Timer */
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.countdown-number {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,0.2);
+  padding: 8px 12px;
+  border-radius: 8px;
+  min-width: 40px;
+}
+
+.countdown-number span:first-child {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+}
+
+.countdown-number span:last-child {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.8);
+  text-transform: uppercase;
 }
 
 /* Ensure proper padding on all pages */

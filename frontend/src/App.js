@@ -9,6 +9,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ResetPassword from './pages/ResetPassword';
 import WhatsAppChatButton from './components/WhatsAppChatButton';
+import Checkout from './pages/Checkout';
+import Confirmation from './pages/Confirmation';
+import MyTickets from './pages/MyTickets';
 import { useAuth } from './AuthContext';
 
 function App() {
@@ -59,6 +62,7 @@ function App() {
               {user ? (
                 <>
                   <Link to="/tickets" className="nav-link">My Tickets</Link>
+                  <Link to="/my-tickets" className="nav-link">My Tickets</Link>
                   <Link to="/logout" className="nav-link">Logout ({userName})</Link>
                 </>
               ) : (
@@ -80,6 +84,7 @@ function App() {
               {user ? (
                 <>
                   <Link to="/tickets" className="nav-link">My Tickets</Link>
+                  <Link to="/my-tickets" className="nav-link">My Tickets</Link>
                   <Link to="/logout" className="nav-link">Logout ({userName})</Link>
                 </>
               ) : (
@@ -104,6 +109,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/confirmation" element={<Confirmation />} />
+            <Route path="/my-tickets" element={<MyTickets />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="*" element={<h2>404 - Not Found</h2>} />
           </Routes>

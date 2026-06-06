@@ -1,9 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext';
 
 const Home = () => {
   const { user } = useAuth();
   const userName = user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const updateCountdown = () => {
+      const targetDate = new Date('June 11, 2026 00:00:00').getTime();
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+      
+      if (diff <= 0) {
+        setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      setCountdown({ days, hours, minutes, seconds });
+    };
+    
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="home-page">
@@ -23,6 +48,18 @@ const Home = () => {
             </>
           )}
           
+          {/* Countdown Timer */}
+          <div className="countdown-timer">
+            <span className="countdown-number">{countdown.days}</span>
+            <span className="countdown-label">Days</span>
+            <span className="countdown-number">{countdown.hours}</span>
+            <span className="countdown-label">Hours</span>
+            <span className="countdown-number">{countdown.minutes}</span>
+            <span className="countdown-label">Minutes</span>
+            <span className="countdown-number">{countdown.seconds}</span>
+            <span className="countdown-label">Seconds</span>
+          </div>
+          
           {/* Browse Events CTA Button */}
           <a href="/events" className="home-cta">
             Browse Events
@@ -30,8 +67,21 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Trust Badges (will be added in Prompt 2) */}
-      {/* Countdown Timer (will be added in Prompt 2) */}
+      {/* Trust Badges */}
+      <div className="trust-badges">
+        <div className="trust-badge">
+          <div className="badge-icon">✅</div>
+          <div className="badge-text">FIFA Authorized Vendor</div>
+        </div>
+        <div className="trust-badge">
+          <div className="badge-icon">🔒</div>
+          <div className="badge-text">Secure Payments</div>
+        </div>
+        <div className="trust-badge">
+          <div className="badge-icon">🎫</div>
+          <div className="badge-text">Verified Tickets</div>
+        </div>
+      </div>
       
       <div className="features">
         <div className="feature">
