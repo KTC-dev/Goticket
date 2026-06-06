@@ -1,6 +1,10 @@
 import React from 'react';
 import WhatsAppChatButton from '../components/WhatsAppChatButton';
 
+const WHATSAPP_PAYMENT_LINK = 'https://wa.me/message/HYRP6AN7DH7YE1';
+const SUPPORT_EMAIL = 'support@goticket.com';
+const SECONDARY_SUPPORT_EMAIL = 'mailaptdeployteam@gmail.com';
+
 const Support = () => {
     return (
         <div className="about-page support-page">
@@ -13,18 +17,25 @@ const Support = () => {
                     <h3>Live WhatsApp Chat</h3>
                     <p>Quickest way to reach us. Click below to start a WhatsApp chat with our support agents.</p>
                     <WhatsAppChatButton />
-                    <p style={{ marginTop: '1rem' }}>
-                        For payment confirmation, message this link directly:
-                        <a href="https://wa.me/message/HYRP6AN7DH7YE1" target="_blank" rel="noreferrer noopener">
-                            https://wa.me/message/HYRP6AN7DH7YE1
+                    {/* Replaced raw URL with styled button for payment confirmation */}
+                    <div style={{ marginTop: '1.5rem' }}>
+                        <a 
+                            href={WHATSAPP_PAYMENT_LINK} 
+                            target="_blank" 
+                            rel="noreferrer noopener"
+                            className="whatsapp-payment-btn"
+                        >
+                            Message for Payment Confirmation
                         </a>
-                    </p>
+                    </div>
                 </div>
                 <div className="support-card">
                     <h3>Email Support</h3>
                     <p>Send us a message and we’ll reply as soon as possible.</p>
                     <p>
-                        <a href="mailto:support@goticket.com,mailaptdeployteam@gmail.com">support@goticket.com</a> or <a href="mailto:mailaptdeployteam@gmail.com">mailaptdeployteam@gmail.com</a>
+                        <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> 
+                        {' or '}
+                        <a href={`mailto:${SECONDARY_SUPPORT_EMAIL}`}>{SECONDARY_SUPPORT_EMAIL}</a>
                     </p>
                 </div>
                 <div className="support-card">

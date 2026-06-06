@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Events from './pages/Events';
@@ -14,29 +14,84 @@ import { useAuth } from './AuthContext';
 function App() {
   const { user } = useAuth();
   const userName = user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  function Logout() {
+    const { signOut } = useAuth();
+    const navigate = useNavigate();
+
+    // Sign out on mount
+    useEffect(() => {
+      signOut().then(() => {
+        navigate('/');
+      }).catch(console.error);
+    }, [signOut, navigate]);
+
+    return <div>Logging out...</div>;
+  }
 
   return (
     <Router>
       <div className="App">
+        {/* Mobile-first Header */}
         <header className="App-header">
-          <h1>Goticket FIFA World Cup 2026</h1>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/events">Events</Link>
-            {user ? (
-              <>
-                <Link to="/tickets">My Tickets</Link>
-                <Link to="/logout">Logout ({userName})</Link>
-              </>
-            ) : (
-              <>
-                <Link to="/login">Login</Link>
-                <Link to="/register">Register</Link>
-              </>
-            )}
-            <Link to="/support">Support</Link>
-            <Link to="/about">About</Link>
-          </nav>
+          <div className="header-content">
+            {/* Logo/Wordmark */}
+            <div className="logo">
+              Goticket
+            </div>
+            
+            {/* Hamburger Menu Button */}
+            <button 
+              className="hamburger-btn"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Open menu"
+            >
+              ☰
+            </button>
+          </div>
+          
+          {/* Mobile Navigation Menu */}
+          {isMenuOpen && (
+            <nav className="mobile-nav">
+              <Link to="/" className="nav-link">Home</Link>
+              <Link to="/events" className="nav-link">Events</Link>
+              {user ? (
+                <>
+                  <Link to="/tickets" className="nav-link">My Tickets</Link>
+                  <Link to="/logout" className="nav-link">Logout ({userName})</Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="nav-link">Login</Link>
+                  <Link to="/register" className="nav-link">Register</Link>
+                </>
+              )}
+              <Link to="/support" className="nav-link">Support</Link>
+              <Link to="/about" className="nav-link">About</Link>
+            </nav>
+          )}
+          
+          {/* Desktop Navigation (hidden on mobile) */}
+          {!isMenuOpen && window.innerWidth > 768 && (
+            <nav className="desktop-nav">
+              <Link to="/" className="nav-link">Home</Link>
+              <Link to="/events" className="nav-link">Events</Link>
+              {user ? (
+                <>
+                  <Link to="/tickets" className="nav-link">My Tickets</Link>
+                  <Link to="/logout" className="nav-link">Logout ({userName})</Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="nav-link">Login</Link>
+                  <Link to="/register" className="nav-link">Register</Link>
+                </>
+              )}
+              <Link to="/support" className="nav-link">Support</Link>
+              <Link to="/about" className="nav-link">About</Link>
+            </nav>
+          )}
         </header>
 
         <main>
@@ -64,21 +119,6 @@ function App() {
       </div>
     </Router>
   );
-}
-
-// Simple logout component
-function Logout() {
-  const { signOut } = useAuth();
-  const navigate = useNavigate();
-
-  // Sign out on mount
-  useEffect(() => {
-    signOut().then(() => {
-      navigate('/');
-    }).catch(console.error);
-  }, [signOut, navigate]);
-
-  return <div>Logging out...</div>;
 }
 
 export default App;

@@ -7,18 +7,31 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      <h2>Welcome to Goticket FIFA World Cup 2026</h2>
-      {user ? (
-        <>
-          <p>Hello, {userName}! Welcome back to your ticket portal.</p>
-          <p>Here you can browse upcoming events and manage your ticket purchases.</p>
-        </>
-      ) : (
-        <>
-          <p>Your official destination for FIFA World Cup 2026 tickets</p>
-          <p>Please log in or register to access personalized features.</p>
-        </>
-      )}
+      {/* Stadium Hero Banner */}
+      <div className="stadium-banner">
+        <div className="stadium-banner-content">
+          <h2>Welcome to Goticket FIFA World Cup 2026</h2>
+          {user ? (
+            <>
+              <p>Hello, {userName}! Welcome back to your ticket portal.</p>
+              <p>Here you can browse upcoming events and manage your ticket purchases.</p>
+            </>
+          ) : (
+            <>
+              <p>Your official destination for FIFA World Cup 2026 tickets</p>
+              <p>Please log in or register to access personalized features.</p>
+            </>
+          )}
+          
+          {/* Browse Events CTA Button */}
+          <a href="/events" className="home-cta">
+            Browse Events
+          </a>
+        </div>
+      </div>
+
+      {/* Trust Badges (will be added in Prompt 2) */}
+      {/* Countdown Timer (will be added in Prompt 2) */}
       
       <div className="features">
         <div className="feature">
