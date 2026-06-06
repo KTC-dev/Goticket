@@ -38,21 +38,19 @@ function App() {
       <div className="App">
         {/* Mobile-first Header */}
         <header className="App-header">
-          <div className="header-content">
-            {/* Logo/Wordmark */}
-            <div className="logo">
-              Goticket
-            </div>
-            
-            {/* Hamburger Menu Button */}
-            <button 
-              className="hamburger-btn"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Open menu"
-            >
-              ☰
-            </button>
+          {/* Logo/Wordmark - on the left */}
+          <div className="logo">
+            Goticket
           </div>
+          
+          {/* Hamburger Menu Button - on the right */}
+          <button 
+            className="hamburger-btn"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
           
           {/* Mobile Navigation Menu */}
           {isMenuOpen && (
@@ -62,7 +60,6 @@ function App() {
               {user ? (
                 <>
                   <Link to="/tickets" className="nav-link">My Tickets</Link>
-                  <Link to="/my-tickets" className="nav-link">My Tickets</Link>
                   <Link to="/logout" className="nav-link">Logout ({userName})</Link>
                 </>
               ) : (
@@ -76,27 +73,24 @@ function App() {
             </nav>
           )}
           
-          {/* Desktop Navigation (hidden on mobile) */}
-          {!isMenuOpen && window.innerWidth > 768 && (
-            <nav className="desktop-nav">
-              <Link to="/" className="nav-link">Home</Link>
-              <Link to="/events" className="nav-link">Events</Link>
-              {user ? (
-                <>
-                  <Link to="/tickets" className="nav-link">My Tickets</Link>
-                  <Link to="/my-tickets" className="nav-link">My Tickets</Link>
-                  <Link to="/logout" className="nav-link">Logout ({userName})</Link>
-                </>
-              ) : (
-                <>
-                  <Link to="/login" className="nav-link">Login</Link>
-                  <Link to="/register" className="nav-link">Register</Link>
-                </>
-              )}
-              <Link to="/support" className="nav-link">Support</Link>
-              <Link to="/about" className="nav-link">About</Link>
-            </nav>
-          )}
+          {/* Desktop Navigation (visible on desktop) */}
+          <nav className="desktop-nav">
+            <Link to="/" className="nav-link">Home</Link>
+            <Link to="/events" className="nav-link">Events</Link>
+            {user ? (
+              <>
+                <Link to="/tickets" className="nav-link">My Tickets</Link>
+                <Link to="/logout" className="nav-link">Logout ({userName})</Link>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="nav-link">Login</Link>
+                <Link to="/register" className="nav-link">Register</Link>
+              </>
+            )}
+            <Link to="/support" className="nav-link">Support</Link>
+            <Link to="/about" className="nav-link">About</Link>
+          </nav>
         </header>
 
         <main>
