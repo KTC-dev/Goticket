@@ -126,7 +126,7 @@ router.get('/:id', async (req, res) => {
 // Create new event (admin only)
 router.post('/', async (req, res) => {
   try {
-    const { title, description, date, venue, location, category, teams, price, available_tickets, total_tickets, image_url } = req.body;
+    const { title, description, date, venue, location, category, teams, price, available_tickets, total_tickets, image_url, time } = req.body;
 
     // Prepare description JSON
     const descJson = JSON.stringify({
@@ -135,7 +135,9 @@ router.post('/', async (req, res) => {
       price,
       available_tickets,
       total_tickets,
-      image_url
+      image_url,
+      time,
+      location
     });
 
     // Use date for both starts_at and ends_at (assuming date is an ISO string)
@@ -164,7 +166,8 @@ router.post('/', async (req, res) => {
       description: newEvent[0].description,
       date: newEvent[0].starts_at,
       venue: newEvent[0].location,
-      location: newEvent[0].location,
+      location: location,
+      time: time,
       category,
       teams,
       price,
@@ -184,7 +187,7 @@ router.post('/', async (req, res) => {
 // Update event
 router.put('/:id', async (req, res) => {
   try {
-    const { title, description, date, venue, location, category, teams, price, available_tickets, total_tickets, image_url } = req.body;
+    const { title, description, date, venue, location, category, teams, price, available_tickets, total_tickets, image_url, time } = req.body;
 
     // Prepare description JSON
     const descJson = JSON.stringify({
@@ -193,7 +196,9 @@ router.put('/:id', async (req, res) => {
       price,
       available_tickets,
       total_tickets,
-      image_url
+      image_url,
+      time,
+      location
     });
 
     // Use date for both starts_at and ends_at (assuming date is an ISO string)
@@ -222,7 +227,8 @@ router.put('/:id', async (req, res) => {
       description: updatedEvent[0].description,
       date: updatedEvent[0].starts_at,
       venue: updatedEvent[0].location,
-      location: updatedEvent[0].location,
+      location: location,
+      time: time,
       category,
       teams,
       price,
