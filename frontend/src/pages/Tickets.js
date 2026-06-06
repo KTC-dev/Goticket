@@ -58,7 +58,7 @@ const Tickets = () => {
           <p>Your ticket is pending. Complete payment and confirm with support to finalize your booking.</p>
           <p>
             Message us directly on WhatsApp for payment confirmation:
-            <a href={WHATSAPP_PAYMENT_LINK} target="_blank" rel="noreferrer noopener">
+            <a href={WHATSAPP_PAYMENT_LINK} target="_blank" rel="noopener noreferrer">
               {WHATSAPP_PAYMENT_LINK}
             </a>
           </p>
@@ -103,7 +103,7 @@ const Tickets = () => {
                         className="buy-button"
                         href={WHATSAPP_PAYMENT_LINK}
                         target="_blank"
-                        rel="noreferrer noopener"
+                        rel="noopener noreferrer"
                       >
                         Continue payment on WhatsApp
                       </a>

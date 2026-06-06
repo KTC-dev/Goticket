@@ -1,15 +1,12 @@
 import React from 'react';
 
-const WhatsAppChatButton = ({ phone = '18004688438', message = 'Hello Goticket support, I need help with my tickets and payments.' }) => {
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${encodedMessage}`;
-
+const WhatsAppChatButton = () => {
     return (
         <a
             className="whatsapp-chat-button"
-            href={whatsappUrl}
+            href="https://wa.me/message/HYRP6AN7DH7YE1"
             target="_blank"
-            rel="noreferrer noopener"
+            rel="noopener noreferrer"
             aria-label="Chat with support on WhatsApp"
         >
             <span>Chat with Support</span>

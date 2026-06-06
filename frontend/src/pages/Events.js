@@ -237,12 +237,14 @@ const Events = () => {
             Section: <strong>{paymentInfo.section}</strong>.
           </p>
           <div className="event-actions">
-            <button
+            <a
               className="buy-button"
-              onClick={() => window.open(WHATSAPP_PAYMENT_LINK, '_blank', 'noopener')}
+              href={WHATSAPP_PAYMENT_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Continue payment on WhatsApp
-            </button>
+            </a>
             <button
               className="hospitality-button"
               onClick={() => window.location.href = `mailto:${SUPPORT_EMAILS}?subject=Ticket%20Payment%20Confirmation&body=I%20reserved%20seat%20${encodeURIComponent(paymentInfo.seatNumber || paymentInfo.seat_number)}%20for%20event%20${encodeURIComponent(paymentInfo.eventId || paymentInfo.event_id)}.`}

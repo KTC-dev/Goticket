@@ -281,7 +281,7 @@ const Checkout = () => {
               <a 
                 href="https://wa.me/message/HYRP6AN7DH7YE1" 
                 target="_blank" 
-                rel="noreferrer noopener"
+                rel="noopener noreferrer"
                 className="btn btn-primary"
               >
                 Message on WhatsApp

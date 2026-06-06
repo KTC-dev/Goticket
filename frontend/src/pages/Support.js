@@ -22,7 +22,7 @@ const Support = () => {
                         <a 
                             href={WHATSAPP_PAYMENT_LINK} 
                             target="_blank" 
-                            rel="noreferrer noopener"
+                            rel="noopener noreferrer"
                             className="whatsapp-payment-btn"
                         >
                             Message for Payment Confirmation
