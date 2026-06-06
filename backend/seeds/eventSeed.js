@@ -318,7 +318,8 @@ const seedEvents = async () => {
           available_tickets: event.available_tickets,
           total_tickets: event.total_tickets,
           image_url: event.image_url,
-          time: event.time
+          time: event.time,
+          location: event.location
         })
       }));
 
