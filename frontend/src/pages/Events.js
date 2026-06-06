@@ -302,7 +302,9 @@ const Events = () => {
               <div key={event.id} className="event-card">
                 <h3>{event.title}</h3>
                 <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
+                <p><strong>Time:</strong> {event.time}</p>
                 <p><strong>Venue:</strong> {event.venue}</p>
+                <p><strong>Location:</strong> {event.location}</p>
                 <p><strong>Teams:</strong> {event.teams.join(' vs ')}</p>
                 <p><strong>Price:</strong> ${event.price}</p>
                 <p><strong>Available Tickets:</strong> {event.available_tickets}</p>

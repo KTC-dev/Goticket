@@ -9,134 +9,172 @@ global.fetch = fetch;
 // Real FIFA World Cup 2026 Opening Matches data
 const events = [
   {
-    title: 'Mexico vs South Africa',
+    title: 'Opening Match - Group A',
     description: 'Opening match of the FIFA World Cup 2026 tournament',
-    date: new Date('2026-06-11T19:00:00Z'),
+    date: new Date('2026-06-11T20:00:00Z'), // 3:00 PM ET
+    time: '3:00 PM ET',
     venue: 'Estadio Azteca',
     location: 'Mexico City, Mexico',
     category: 'Match',
     teams: ['Mexico', 'South Africa'],
     price: 450,
-    available_tickets: 80000,
-    total_tickets: 80000,
+    available_tickets: 50000,
+    total_tickets: 50000,
     image_url: 'https://example.com/images/mexico-vs-southafrica.jpg'
   },
   {
-    title: 'Canada vs Switzerland',
-    description: 'Group stage match between Canada and Switzerland',
-    date: new Date('2026-06-12T17:00:00Z'),
+    title: 'Group B',
+    description: 'Group stage match between Canada and Bosnia & Herzegovina',
+    date: new Date('2026-06-12T21:00:00Z'), // 6:00 PM ET
+    time: '6:00 PM ET',
     venue: 'BMO Field',
     location: 'Toronto, Canada',
     category: 'Match',
-    teams: ['Canada', 'Switzerland'],
-    price: 350,
-    available_tickets: 45000,
-    total_tickets: 45000,
-    image_url: 'https://example.com/images/canada-vs-switzerland.jpg'
+    teams: ['Canada', 'Bosnia & Herzegovina'],
+    price: 300,
+    available_tickets: 30000,
+    total_tickets: 30000,
+    image_url: 'https://example.com/images/canada-vs-bosnia.jpg'
   },
   {
-    title: 'Brazil vs Morocco',
-    description: 'Group stage match between Brazil and Morocco',
-    date: new Date('2026-06-13T20:00:00Z'),
-    venue: 'MetLife Stadium',
-    location: 'East Rutherford, New Jersey',
-    category: 'Match',
-    teams: ['Brazil', 'Morocco'],
-    price: 500,
-    available_tickets: 75000,
-    total_tickets: 75000,
-    image_url: 'https://example.com/images/brazil-vs-morocco.jpg'
-  },
-  {
-    title: 'Argentina vs Algeria',
-    description: 'Group stage match between Argentina and Algeria',
-    date: new Date('2026-06-16T18:00:00Z'),
-    venue: 'Arrowhead Stadium',
-    location: 'Kansas City, Missouri',
-    category: 'Match',
-    teams: ['Argentina', 'Algeria'],
-    price: 400,
-    available_tickets: 65000,
-    total_tickets: 65000,
-    image_url: 'https://example.com/images/argentina-vs-algeria.jpg'
-  },
-  {
-    title: 'USA vs Paraguay',
+    title: 'Group D',
     description: 'Group stage match between USA and Paraguay',
-    date: new Date('2026-06-17T19:00:00Z'),
+    date: new Date('2026-06-12T23:00:00Z'), // 9:00 PM ET
+    time: '9:00 PM ET',
     venue: 'SoFi Stadium',
-    location: 'Inglewood, California',
+    location: 'Los Angeles, USA',
     category: 'Match',
     teams: ['USA', 'Paraguay'],
-    price: 300,
+    price: 500,
     available_tickets: 70000,
     total_tickets: 70000,
     image_url: 'https://example.com/images/usa-vs-paraguay.jpg'
   },
   {
-    title: 'Germany vs Ecuador',
-    description: 'Group stage match between Germany and Ecuador',
-    date: new Date('2026-06-18T18:00:00Z'),
-    venue: 'AT&T Stadium',
-    location: 'Arlington, Texas',
-    category: 'Match',
-    teams: ['Germany', 'Ecuador'],
-    price: 400,
-    available_tickets: 80000,
-    total_tickets: 80000,
-    image_url: 'https://example.com/images/germany-vs-ecuador.jpg'
-  },
-  {
-    title: 'Spain vs Cape Verde',
-    description: 'Group stage match between Spain and Cape Verde',
-    date: new Date('2026-06-18T20:00:00Z'),
-    venue: 'Mercedes-Benz Stadium',
-    location: 'Atlanta, Georgia',
-    category: 'Match',
-    teams: ['Spain', 'Cape Verde'],
-    price: 350,
-    available_tickets: 70000,
-    total_tickets: 70000,
-    image_url: 'https://example.com/images/spain-vs-capecverde.jpg'
-  },
-  {
-    title: 'France vs Senegal',
-    description: 'Group stage match between France and Senegal',
-    date: new Date('2026-06-19T18:00:00Z'),
+    title: 'Group C',
+    description: 'Group stage match between Brazil and Morocco',
+    date: new Date('2026-06-13T21:00:00Z'), // 9:00 PM ET
+    time: '9:00 PM ET',
     venue: 'MetLife Stadium',
-    location: 'East Rutherford, New Jersey',
+    location: 'New York/New Jersey, USA',
     category: 'Match',
-    teams: ['France', 'Senegal'],
-    price: 450,
-    available_tickets: 75000,
-    total_tickets: 75000,
-    image_url: 'https://example.com/images/france-vs-senegal.jpg'
+    teams: ['Brazil', 'Morocco'],
+    price: 550,
+    available_tickets: 82000,
+    total_tickets: 82000,
+    image_url: 'https://example.com/images/brazil-vs-morocco.jpg'
   },
   {
-    title: 'England vs Croatia',
+    title: 'Group J',
+    description: 'Group stage match between Argentina and Algeria',
+    date: new Date('2026-06-16T21:00:00Z'), // 9:00 PM ET
+    time: '9:00 PM ET',
+    venue: 'Arrowhead Stadium',
+    location: 'Kansas City, USA',
+    category: 'Match',
+    teams: ['Argentina', 'Algeria'],
+    price: 600,
+    available_tickets: 76000,
+    total_tickets: 76000,
+    image_url: 'https://example.com/images/argentina-vs-algeria.jpg'
+  },
+  {
+    title: 'Group L',
     description: 'Group stage match between England and Croatia',
-    date: new Date('2026-06-19T20:00:00Z'),
+    date: new Date('2026-06-17T19:00:00Z'), // 3:00 PM ET
+    time: '3:00 PM ET',
     venue: 'AT&T Stadium',
-    location: 'Arlington, Texas',
+    location: 'Dallas, USA',
     category: 'Match',
     teams: ['England', 'Croatia'],
-    price: 400,
+    price: 520,
     available_tickets: 80000,
     total_tickets: 80000,
     image_url: 'https://example.com/images/england-vs-croatia.jpg'
   },
   {
-    title: 'Netherlands vs Japan',
+    title: 'Group H',
+    description: 'Group stage match between Spain and Cape Verde',
+    date: new Date('2026-06-18T16:00:00Z'), // 12:00 PM ET
+    time: '12:00 PM ET',
+    venue: 'Mercedes-Benz Stadium',
+    location: 'Atlanta, USA',
+    category: 'Match',
+    teams: ['Spain', 'Cape Verde'],
+    price: 480,
+    available_tickets: 71000,
+    total_tickets: 71000,
+    image_url: 'https://example.com/images/spain-vs-capecverde.jpg'
+  },
+  {
+    title: 'Group E',
+    description: 'Group stage match between Germany and Ecuador',
+    date: new Date('2026-06-18T22:00:00Z'), // 6:00 PM ET
+    time: '6:00 PM ET',
+    venue: 'AT&T Stadium',
+    location: 'Dallas, USA',
+    category: 'Match',
+    teams: ['Germany', 'Ecuador'],
+    price: 470,
+    available_tickets: 80000,
+    total_tickets: 80000,
+    image_url: 'https://example.com/images/germany-vs-ecuador.jpg'
+  },
+  {
+    title: 'Group I',
+    description: 'Group stage match between France and Senegal',
+    date: new Date('2026-06-19T19:00:00Z'), // 3:00 PM ET
+    time: '3:00 PM ET',
+    venue: 'MetLife Stadium',
+    location: 'New York/New Jersey, USA',
+    category: 'Match',
+    teams: ['France', 'Senegal'],
+    price: 530,
+    available_tickets: 82000,
+    total_tickets: 82000,
+    image_url: 'https://example.com/images/france-vs-senegal.jpg'
+  },
+  {
+    title: 'Group F',
     description: 'Group stage match between Netherlands and Japan',
-    date: new Date('2026-06-20T19:00:00Z'),
+    date: new Date('2026-06-20T22:00:00Z'), // 6:00 PM ET
+    time: '6:00 PM ET',
     venue: 'Lumen Field',
-    location: 'Seattle, Washington',
+    location: 'Seattle, USA',
     category: 'Match',
     teams: ['Netherlands', 'Japan'],
     price: 350,
+    available_tickets: 69000,
+    total_tickets: 69000,
+    image_url: 'https://example.com/images/netherlands-vs-japan.jpg'
+  },
+  {
+    title: 'Group L',
+    description: 'Group stage match between England and Ghana',
+    date: new Date('2026-06-23T20:00:00Z'), // 4:00 PM ET
+    time: '4:00 PM ET',
+    venue: 'Gillette Stadium',
+    location: 'Boston, USA',
+    category: 'Match',
+    teams: ['England', 'Ghana'],
+    price: 490,
     available_tickets: 65000,
     total_tickets: 65000,
-    image_url: 'https://example.com/images/netherlands-vs-japan.jpg'
+    image_url: 'https://example.com/images/england-vs-ghana.jpg'
+  },
+  {
+    title: 'Group L',
+    description: 'Group stage match between Panama and England',
+    date: new Date('2026-06-27T22:00:00Z'), // 5:00 PM ET
+    time: '5:00 PM ET',
+    venue: 'MetLife Stadium',
+    location: 'New York/New Jersey, USA',
+    category: 'Match',
+    teams: ['Panama', 'England'],
+    price: 510,
+    available_tickets: 82000,
+    total_tickets: 82000,
+    image_url: 'https://example.com/images/panama-vs-england.jpg'
   }
 ];
 
@@ -242,7 +280,7 @@ const seedEvents = async () => {
     // Transform events to match what we think the schema expects
     // Based on our earlier inspection, the table seems to have:
     // id, title, description, starts_at, ends_at, location, created_at, updated_at
-    // And description is a JSON string containing category, teams, price, available_tickets, total_tickets, image_url
+    // And description is a JSON string containing category, teams, price, available_tickets, total_tickets, image_url, time
     const formattedEvents = events.map(event => ({
       title: event.title,
       description: JSON.stringify({
@@ -251,7 +289,8 @@ const seedEvents = async () => {
         price: event.price,
         available_tickets: event.available_tickets,
         total_tickets: event.total_tickets,
-        image_url: event.image_url
+        image_url: event.image_url,
+        time: event.time
       }),
       starts_at: event.date.toISOString(),
       ends_at: event.date.toISOString(),
@@ -277,7 +316,8 @@ const seedEvents = async () => {
           price: event.price,
           available_tickets: event.available_tickets,
           total_tickets: event.total_tickets,
-          image_url: event.image_url
+          image_url: event.image_url,
+          time: event.time
         })
       }));
 

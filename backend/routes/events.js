@@ -43,7 +43,8 @@ const parseEventMeta = (event) => {
     price: calculatePrice(basePrice, event.location),
     available_tickets: meta.available_tickets ?? event.available_tickets ?? 0,
     total_tickets: meta.total_tickets ?? event.total_tickets ?? 0,
-    image_url: meta.image_url ?? event.image_url ?? ''
+    image_url: meta.image_url ?? event.image_url ?? '',
+    time: meta.time ?? ''
   };
 };
 
@@ -67,6 +68,7 @@ router.get('/', async (req, res) => {
         date: event.starts_at,
         venue: event.location,
         location: event.location,
+        time: meta.time,
         category: meta.category,
         teams: meta.teams,
         price: meta.price,
