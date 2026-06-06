@@ -9,6 +9,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -36,10 +37,10 @@ const Register = () => {
     <div className="register-page">
       <div className="register-container">
         <h2>Register for Goticket</h2>
-
+        
         {error && <div className="alert alert-error">{error}</div>}
         {success && <div className="alert alert-success">{success}</div>}
-
+        
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username:</label>
@@ -51,7 +52,7 @@ const Register = () => {
               required
             />
           </div>
-
+          
           <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
@@ -62,7 +63,7 @@ const Register = () => {
               required
             />
           </div>
-
+          
           <div className="form-group">
             <label htmlFor="fullName">Full Name:</label>
             <input
@@ -73,22 +74,32 @@ const Register = () => {
               required
             />
           </div>
-
+          
           <div className="form-group">
             <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? '👁️‍🗨️' : '👁'}
+              </button>
+            </div>
           </div>
-
+          
           <button type="submit" disabled={loading}>
             {loading ? 'Registering...' : 'Register'}
           </button>
-
+          
           <p className="switch-to-login">
             Already have an account? <span onClick={() => navigate('/login')}>Login here</span>
           </p>
