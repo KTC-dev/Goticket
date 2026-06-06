@@ -44,7 +44,8 @@ const parseEventMeta = (event) => {
     available_tickets: meta.available_tickets ?? event.available_tickets ?? 0,
     total_tickets: meta.total_tickets ?? event.total_tickets ?? 0,
     image_url: meta.image_url ?? event.image_url ?? '',
-    time: meta.time ?? ''
+    time: meta.time ?? '',
+    location: meta.location ?? event.location ?? ''
   };
 };
 

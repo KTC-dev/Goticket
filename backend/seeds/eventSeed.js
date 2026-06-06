@@ -280,7 +280,7 @@ const seedEvents = async () => {
     // Transform events to match what we think the schema expects
     // Based on our earlier inspection, the table seems to have:
     // id, title, description, starts_at, ends_at, location, created_at, updated_at
-    // And description is a JSON string containing category, teams, price, available_tickets, total_tickets, image_url, time
+    // And description is a JSON string containing category, teams, price, available_tickets, total_tickets, image_url, time, location
     const formattedEvents = events.map(event => ({
       title: event.title,
       description: JSON.stringify({
@@ -290,7 +290,8 @@ const seedEvents = async () => {
         available_tickets: event.available_tickets,
         total_tickets: event.total_tickets,
         image_url: event.image_url,
-        time: event.time
+        time: event.time,
+        location: event.location
       }),
       starts_at: event.date.toISOString(),
       ends_at: event.date.toISOString(),
