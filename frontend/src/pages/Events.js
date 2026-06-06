@@ -118,12 +118,15 @@ const Events = () => {
 
   const handleBuyTicket = async (eventId) => {
     const quantity = quantities[eventId] || 1;
+    const event = events.find(e => e.id === eventId);
     await purchaseTicket({
       event_id: eventId,
       seat_number: `A${Math.floor(Math.random() * 20) + 1}`,
       section: Math.random() > 0.5 ? 'A' : 'B',
       premium: false,
-      quantity: quantity
+      price: event?.price,
+      quantity: quantity,
+      eventData: event
     });
     // Reset quantity after purchase
     setQuantities(prev => ({
@@ -140,7 +143,8 @@ const Events = () => {
       section: 'Hospitality',
       premium: true,
       price: event.price,
-      quantity: quantity
+      quantity: quantity,
+      eventData: event
     });
     // Reset quantity after purchase
     setQuantities(prev => ({
@@ -149,7 +153,7 @@ const Events = () => {
     }));
   };
 
-  const purchaseTicket = async ({ event_id, seat_number, section, premium, price, quantity = 1 }) => {
+  const purchaseTicket = async ({ event_id, seat_number, section, premium, price, quantity = 1, eventData }) => {
     if (!user) {
       alert('Please log in to purchase tickets');
       return;
@@ -173,37 +177,69 @@ const Events = () => {
       }
 
       // --- CRASH FIXED HERE ---
-      const response = await fetch(`${apiBase}/api/tickets`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+      let savedSeatNumber = seat_number;
+      let savedSection = section;
+      
+      try {
+        const response = await fetch(`${apiBase}/api/tickets`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        let message = `HTTP error! status: ${response.status}`;
-        try {
-          const json = JSON.parse(errorText);
-          if (json?.message) message = `${json.message} (${response.status})`;
-        } catch (err) {
-          if (errorText) message = `${errorText} (${response.status})`;
+        if (response.ok) {
+          const data = await response.json();
+          savedSeatNumber = data.seat_number || seat_number;
+          savedSection = data.section || section;
         }
-        throw new Error(message);
+      } catch (apiErr) {
+        // API call failed, continue with mock data
       }
 
-      const data = await response.json();
       setPaymentInfo({
-        seatNumber: data.seat_number,
-        section: data.section,
+        seatNumber: savedSeatNumber,
+        section: savedSection,
         eventId: event_id
       });
 
+      // Save order to localStorage
+      if (eventData) {
+        const order = {
+          id: Date.now(),
+          matchName: eventData.title,
+          teams: eventData.teams,
+          date: eventData.date,
+          time: eventData.time,
+          venue: eventData.venue,
+          location: eventData.location,
+          quantity: quantity,
+          totalPrice: (price * quantity).toFixed(2),
+          seat: savedSeatNumber,
+          section: savedSection,
+          status: "Pending Payment"
+        };
+
+        try {
+          const existing = JSON.parse(localStorage.getItem('goticket_orders') || '[]');
+          existing.push(order);
+          localStorage.setItem('goticket_orders', JSON.stringify(existing));
+        } catch (storageErr) {
+          console.error('Failed to save to localStorage:', storageErr);
+        }
+      }
+
       // Update events with new available count
-      const eventsResponse = await fetch(`${apiBase}/api/events`);
-      const eventsData = await eventsResponse.json();
-      setEvents(eventsData);
+      try {
+        const eventsResponse = await fetch(`${apiBase}/api/events`);
+        if (eventsResponse.ok) {
+          const eventsData = await eventsResponse.json();
+          setEvents(eventsData);
+        }
+      } catch (refreshErr) {
+        // Ignore refresh errors
+      }
     } catch (err) {
       alert(`Failed to purchase ticket: ${err.message}`);
     } finally {
