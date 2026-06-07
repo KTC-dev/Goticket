@@ -20,7 +20,7 @@ jobs:
       - name: Install & Build Frontend
         run: |
           cd frontend
-          npm ci
+          npm install --legacy-peer-deps
           npm run build
 
       - name: Deploy to Vercel
