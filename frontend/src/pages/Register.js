@@ -3,7 +3,7 @@ import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const { signUp, signIn, loading } = useAuth();
+  const { signUp, signIn } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,11 +12,14 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
+    setIsSubmitting(true);
+    
     try {
       const result = await signUp(email, password, {
         username,
@@ -29,22 +32,20 @@ const Register = () => {
         setSuccess(`Welcome to Goticket, ${username}! 🎉`);
         setTimeout(() => {
           navigate('/events');
-        }, 1500);
+        }, 1000);
       } catch (loginErr) {
+        console.error('Auto-login failed:', loginErr);
         // Auto-login failed, redirect to login
         setSuccess('Account created! Please log in to continue.');
         setTimeout(() => {
           navigate('/login');
-        }, 2000);
+        }, 1500);
       }
-      
-      // Clear form
-      setEmail('');
-      setPassword('');
-      setUsername('');
-      setFullName('');
     } catch (err) {
+      console.error('Registration error:', err);
       setError(err.message || 'Registration failed');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -111,8 +112,8 @@ const Register = () => {
             </div>
           </div>
           
-          <button type="submit" disabled={loading}>
-            {loading ? 'Registering...' : 'Register'}
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Registering...' : 'Register'}
           </button>
           
           <p className="switch-to-login">
