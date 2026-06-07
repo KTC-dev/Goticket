@@ -5,13 +5,15 @@ const router = express.Router();
 
 const getSmtpConfig = () => {
     const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, WELCOME_EMAIL_FROM } = process.env;
-    if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !WELCOME_EMAIL_FROM) {
+    if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !WELCOME_EMAIL_FROM) {
         return null;
     }
+    // Default to port 465 (SSL) which is more reliable
+    const port = Number(SMTP_PORT) || 465;
     return {
         host: SMTP_HOST,
-        port: Number(SMTP_PORT),
-        secure: Number(SMTP_PORT) === 465,
+        port: port,
+        secure: port === 465,
         auth: {
             user: SMTP_USER,
             pass: SMTP_PASS,
