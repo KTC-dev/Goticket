@@ -68,7 +68,7 @@ router.get('/', async (req, res) => {
         description: event.description,
         date: event.starts_at,
         venue: event.location,
-        location: event.location,
+        location: meta.location || event.location,
         time: meta.time,
         category: meta.category,
         teams: meta.teams,
