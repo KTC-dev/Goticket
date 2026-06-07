@@ -3,7 +3,7 @@ import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const { signUp, loading } = useAuth();
+  const { signUp, signIn, loading } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,8 +22,23 @@ const Register = () => {
         username,
         fullName
       });
-      setSuccess(result.message || 'Registration successful!');
-      // Clear form after successful registration
+      
+      // Auto-login after successful registration
+      try {
+        await signIn(email, password);
+        setSuccess(`Welcome to Goticket, ${username}! 🎉`);
+        setTimeout(() => {
+          navigate('/events');
+        }, 1500);
+      } catch (loginErr) {
+        // Auto-login failed, redirect to login
+        setSuccess('Account created! Please log in to continue.');
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      }
+      
+      // Clear form
       setEmail('');
       setPassword('');
       setUsername('');

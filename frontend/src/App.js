@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Events from './pages/Events';
 import Tickets from './pages/Tickets';
@@ -14,24 +14,94 @@ import Confirmation from './pages/Confirmation';
 import MyTickets from './pages/MyTickets';
 import { useAuth } from './AuthContext';
 
-function App() {
+// Menu component with internal state management
+function HeaderMenu() {
   const { user } = useAuth();
   const userName = user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+  const location = useLocation();
 
-  function Logout() {
-    const { signOut } = useAuth();
-    const navigate = useNavigate();
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
 
-    // Sign out on mount
-    useEffect(() => {
-      signOut().then(() => {
-        navigate('/');
-      }).catch(console.error);
-    }, [signOut, navigate]);
+    const handleEscapeKey = (event) => {
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false);
+      }
+    };
 
-    return <div>Logging out...</div>;
-  }
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscapeKey);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, []);
+
+  // Close menu on route change
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
+  return (
+    <>
+      {/* Hamburger Menu Button - on the right */}
+      <button 
+        className="hamburger-btn"
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+      >
+        {isMenuOpen ? '✕' : '☰'}
+      </button>
+      
+      {/* Mobile Navigation Menu */}
+      {isMenuOpen && (
+        <nav ref={menuRef} className="mobile-nav">
+          <Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>Home</Link>
+          <Link to="/events" className="nav-link" onClick={() => setIsMenuOpen(false)}>Events</Link>
+          {user ? (
+            <>
+              <Link to="/tickets" className="nav-link" onClick={() => setIsMenuOpen(false)}>My Tickets</Link>
+              <Link to="/logout" className="nav-link" onClick={() => setIsMenuOpen(false)}>Logout ({userName})</Link>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="nav-link" onClick={() => setIsMenuOpen(false)}>Login</Link>
+              <Link to="/register" className="nav-link" onClick={() => setIsMenuOpen(false)}>Register</Link>
+            </>
+          )}
+          <Link to="/support" className="nav-link" onClick={() => setIsMenuOpen(false)}>Support</Link>
+          <Link to="/about" className="nav-link" onClick={() => setIsMenuOpen(false)}>About</Link>
+        </nav>
+      )}
+    </>
+  );
+}
+
+function Logout() {
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+
+  // Sign out on mount
+  useEffect(() => {
+    signOut().then(() => {
+      navigate('/');
+    }).catch(console.error);
+  }, [signOut, navigate]);
+
+  return <div>Logging out...</div>;
+}
+
+function App() {
+  const { user } = useAuth();
+  const userName = user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
 
   return (
     <Router>
@@ -43,35 +113,7 @@ function App() {
             Goticket
           </div>
           
-          {/* Hamburger Menu Button - on the right */}
-          <button 
-            className="hamburger-btn"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Open menu"
-          >
-            ☰
-          </button>
-          
-          {/* Mobile Navigation Menu */}
-          {isMenuOpen && (
-            <nav className="mobile-nav">
-              <Link to="/" className="nav-link">Home</Link>
-              <Link to="/events" className="nav-link">Events</Link>
-              {user ? (
-                <>
-                  <Link to="/tickets" className="nav-link">My Tickets</Link>
-                  <Link to="/logout" className="nav-link">Logout ({userName})</Link>
-                </>
-              ) : (
-                <>
-                  <Link to="/login" className="nav-link">Login</Link>
-                  <Link to="/register" className="nav-link">Register</Link>
-                </>
-              )}
-              <Link to="/support" className="nav-link">Support</Link>
-              <Link to="/about" className="nav-link">About</Link>
-            </nav>
-          )}
+          <HeaderMenu />
           
           {/* Desktop Navigation (visible on desktop) */}
           <nav className="desktop-nav">
