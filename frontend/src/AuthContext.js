@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signUp = async (email, password, options = {}) => {
-    const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    const apiBase = process.env.REACT_APP_API_URL || 'https://goticket-2j51.onrender.com';
     const response = await fetch(`${apiBase}/api/auth/register`, {
       method: 'POST',
       headers: {

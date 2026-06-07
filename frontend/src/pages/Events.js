@@ -28,7 +28,7 @@ const Events = () => {
   const [venues, setVenues] = useState([]);
 
   // Fallback API Base setup globally for the component scope
-  const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  const apiBase = process.env.REACT_APP_API_URL || 'https://goticket-2j51.onrender.com';
 
   const fetchEvents = async () => {
     try {
