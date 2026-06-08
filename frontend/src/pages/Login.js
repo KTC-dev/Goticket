@@ -28,10 +28,10 @@ const Login = () => {
     <div className="login-page">
       <div className="login-container">
         <h2>Login to Goticket</h2>
-        
+
         {error && <div className="alert alert-error">{error}</div>}
         {success && <div className="alert alert-success">{success}</div>}
-        
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email:</label>
@@ -43,7 +43,7 @@ const Login = () => {
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="password">Password:</label>
             <div className="password-wrapper">
@@ -64,18 +64,18 @@ const Login = () => {
               </button>
             </div>
           </div>
-          
-<button type="submit" className="btn btn-primary" disabled={loading}>
-             {loading ? 'Logging in...' : 'Login'}
-           </button>
-          
+
+          <button type="submit" className="btn btn-primary" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
+
           <p className="switch-to-register">
             Don't have an account? <span onClick={() => navigate('/register')}>Register here</span>
           </p>
-          
-<p className="forgot-password">
-             <span onClick={() => navigate('/reset-password')}>Forgot password?</span>
-           </p>
+
+          <p className="forgot-password">
+            <span onClick={() => navigate('/reset-password')}>Forgot password?</span>
+          </p>
         </form>
       </div>
     </div>
