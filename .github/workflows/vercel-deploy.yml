@@ -23,6 +23,7 @@ jobs:
         run: |
           cd frontend
           rm -rf node_modules
+          npm cache clean --force
           npm install --legacy-peer-deps --ignore-engines
 
       - name: Build
