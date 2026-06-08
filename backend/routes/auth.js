@@ -205,7 +205,7 @@ router.post('/register', async (req, res) => {
             email_confirm: true,
             user_metadata: {
                 username,
-                full_name: fullName,
+                fullName,
                 gender,
             },
         });
