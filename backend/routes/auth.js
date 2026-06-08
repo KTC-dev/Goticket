@@ -205,7 +205,7 @@ router.post('/register', async (req, res) => {
             email_confirm: true,
             user_metadata: {
                 username,
-                fullName,
+                fullName,  // camelCase for trigger compatibility
                 gender,
             },
         });
