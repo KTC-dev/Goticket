@@ -128,9 +128,9 @@ const Register = () => {
             </div>
           </div>
           
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Registering...' : 'Register'}
-          </button>
+<button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+             {isSubmitting ? 'Registering...' : 'Register'}
+           </button>
           
           <p className="switch-to-login">
             Already have an account? <span onClick={() => navigate('/login')}>Login here</span>
