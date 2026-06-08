@@ -22,8 +22,9 @@ jobs:
         run: npm install -g vercel --legacy-peer-deps
 
       - name: Deploy to Vercel
+        working-directory: frontend/build
         run: |
-          vercel --token ${{ secrets.VERCEL_TOKEN }} --org-id ${{ secrets.VERCEL_ORG_ID }} --confirm --no-build frontend/build
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --org-id ${{ secrets.VERCEL_ORG_ID }} --confirm --no-build --prod
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
