@@ -153,37 +153,37 @@ function App() {
           </Routes>
         </main>
 
-<div className="floating-chat-container">
-           <WhatsAppChatButton />
-         </div>
+        <div className="floating-chat-container">
+          <WhatsAppChatButton />
+        </div>
 
-         <footer className="detailed-footer">
-           <div className="footer-container">
-             <div className="footer-brand">
-               <h2>⚽ Goticket</h2>
-               <p>Your official destination for FIFA World Cup 2026 tickets</p>
-             </div>
-             <div className="footer-links">
-               <h3>Quick Links</h3>
-               <Link to="/">Home</Link>
-               <Link to="/events">Events</Link>
-               <Link to="/tickets">My Tickets</Link>
-               <Link to="/support">Support</Link>
-               <Link to="/about">About</Link>
-             </div>
-             <div className="footer-contact">
-               <h3>Contact</h3>
-               <a href="https://wa.me/message/HYRP6AN7DH7YE1" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>
-               <a href="mailto:support@goticket.com">📧 support@goticket.com</a>
-             </div>
-             <div className="footer-bottom">
-               <p>© 2026 Goticket. All rights reserved. Not affiliated with FIFA.</p>
-             </div>
-           </div>
-         </footer>
-       </div>
-     </Router>
-   );
+        <footer className="detailed-footer">
+          <div className="footer-container">
+            <div className="footer-brand">
+              <h2>⚽ Goticket</h2>
+              <p>Your official destination for FIFA World Cup 2026 tickets</p>
+            </div>
+            <div className="footer-links">
+              <h3>Quick Links</h3>
+              <Link to="/">Home</Link>
+              <Link to="/events">Events</Link>
+              <Link to="/tickets">My Tickets</Link>
+              <Link to="/support">Support</Link>
+              <Link to="/about">About</Link>
+            </div>
+            <div className="footer-contact">
+              <h3>Contact</h3>
+              <a href="https://wa.me/message/HYRP6AN7DH7YE1" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>
+              <a href="mailto:support@goticket.com">📧 support@goticket.com</a>
+            </div>
+            <div className="footer-bottom">
+              <p>© 2026 Goticket. All rights reserved. Not affiliated with FIFA.</p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
