@@ -12,17 +12,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
+      - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'none'
+          node-version: 20
 
       - name: Install & Build Frontend
+        working-directory: ./frontend
         run: |
-          cd frontend
-          rm -rf node_modules
-          npm install --legacy-peer-deps --ignore-scripts
+          npm install --legacy-peer-deps
           npm run build
 
       - name: Deploy to Vercel

@@ -23,7 +23,8 @@ frontend/build/
 thumbs.db
 
 # NPM
-package-lock.json
+# package-lock.json is intentionally committed for CI builds
+# Lock files are needed for npm ci to work in GitHub Actions
 
 # Ignore IDEA
 .idea/
