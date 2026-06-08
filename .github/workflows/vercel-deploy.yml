@@ -22,7 +22,8 @@ jobs:
 
       - name: Deploy
         working-directory: frontend/build
-        run: vercel --token ${{ secrets.VERCEL_TOKEN }} --org-id ${{ secrets.VERCEL_ORG_ID }} --prod
+        run: |
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --org-id ${{ secrets.VERCEL_ORG_ID }} --prod --debug
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
