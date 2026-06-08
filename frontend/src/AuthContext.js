@@ -43,17 +43,6 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
-  const signInWithGoogle = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: window.location.origin,
-      },
-    });
-    if (error) throw error;
-    return data;
-  };
-
   const signUp = async (email, password, options = {}) => {
     const apiBase = process.env.REACT_APP_API_URL || 'https://goticket-2j51.onrender.com';
     const response = await fetch(`${apiBase}/api/auth/register`, {
@@ -101,7 +90,6 @@ export const AuthProvider = ({ children }) => {
         user,
         loading,
         signIn,
-        signInWithGoogle,
         signUp,
         signOut,
         resetPassword,
