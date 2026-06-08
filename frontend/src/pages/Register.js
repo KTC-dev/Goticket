@@ -3,7 +3,7 @@ import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const { signUp, signIn } = useAuth();
+  const { signUp, signIn, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -136,6 +136,25 @@ const Register = () => {
             Already have an account? <span onClick={() => navigate('/login')}>Login here</span>
           </p>
         </form>
+        
+        <div className="social-login">
+          <p className="divider"><span>OR</span></p>
+          <button 
+            type="button"
+            className="btn-google"
+            onClick={async () => {
+              try {
+                await signInWithGoogle();
+              } catch (err) {
+                setError(err.message || 'Google sign-up failed');
+              }
+            }}
+            disabled={isSubmitting}
+          >
+            <img src="https://www.google.com/favicon.ico" alt="Google" width="18" height="18" />
+            Sign up with Google
+          </button>
+        </div>
       </div>
     </div>
   );

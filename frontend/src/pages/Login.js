@@ -3,7 +3,7 @@ import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const { signIn, loading } = useAuth();
+  const { signIn, signInWithGoogle, loading } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -73,10 +73,29 @@ const Login = () => {
             Don't have an account? <span onClick={() => navigate('/register')}>Register here</span>
           </p>
           
-          <p className="forgot-password">
-            <span onClick={() => navigate('/reset-password')}>Forgot password?</span>
-          </p>
-        </form>
+<p className="forgot-password">
+             <span onClick={() => navigate('/reset-password')}>Forgot password?</span>
+           </p>
+         </form>
+         
+         <div className="social-login">
+           <p className="divider"><span>OR</span></p>
+           <button 
+             type="button"
+             className="btn-google"
+             onClick={async () => {
+               try {
+                 await signInWithGoogle();
+               } catch (err) {
+                 setError(err.message || 'Google sign-in failed');
+               }
+             }}
+             disabled={loading}
+           >
+             <img src="https://www.google.com/favicon.ico" alt="Google" width="18" height="18" />
+             Sign in with Google
+           </button>
+         </div>
       </div>
     </div>
   );
