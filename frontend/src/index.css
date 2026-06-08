@@ -734,6 +734,584 @@ select:focus {
   text-transform: uppercase;
 }
 
+/* ============ NEW HOME PAGE STYLES ============ */
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hero Section */
+.hero-section {
+  height: 100vh;
+  background-image: url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=1200&q=80');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(0,0,0,0.65), rgba(10,35,66,0.85));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 0 20px;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-welcome {
+  color: #2a9d8f;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.hero-headline {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0 0 16px 0;
+  color: white;
+}
+
+.hero-subtext {
+  font-size: 1rem;
+  color: #ddd;
+  margin-bottom: 24px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.hero-btn {
+  padding: 12px 24px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+/* New Countdown Timer (single row) */
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+}
+
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0,0,0,0.3);
+  padding: 12px 20px;
+  min-width: 100px;
+}
+
+.countdown-number {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+}
+
+.countdown-label {
+  font-size: 0.75rem;
+  color: #2a9d8f;
+  text-transform: uppercase;
+}
+
+.countdown-divider {
+  width: 1px;
+  height: 40px;
+  background: white;
+}
+
+/* Stats Bar */
+.stats-bar {
+  background: #0a2342;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 0;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 0 20px;
+}
+
+.stat-number {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2a9d8f;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background: white;
+  opacity: 0.3;
+}
+
+/* Featured Matches */
+.featured-matches {
+  padding: 80px 40px;
+  background: white;
+}
+
+.matches-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 20px 0;
+  scrollbar-width: none;
+}
+
+.matches-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.match-card {
+  min-width: 260px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 20px;
+  text-align: left;
+  transition: transform 0.2s;
+}
+
+.match-card:hover {
+  transform: translateY(-4px);
+}
+
+.match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.match-group {
+  font-size: 0.8rem;
+  color: #2a9d8f;
+}
+
+.match-hot {
+  background: #ff6b6b;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+}
+
+.match-teams {
+  color: #0a2342;
+  margin: 8px 0;
+  font-size: 1.1rem;
+}
+
+.match-info {
+  margin: 4px 0;
+  color: #666;
+}
+
+.match-venue {
+  margin: 4px 0;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.match-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  margin: 8px 0;
+}
+
+.match-badge.available {
+  background: #4caf50;
+  color: white;
+}
+
+.match-btn {
+  width: 100%;
+  margin-top: 12px;
+}
+
+/* How It Works */
+.how-it-works {
+  padding: 80px 40px;
+  background: #f4f6f9;
+  text-align: center;
+}
+
+.steps-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.step-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 280px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.step-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.step-arrow {
+  font-size: 2rem;
+  color: #2a9d8f;
+}
+
+/* Live Ticker */
+.live-ticker {
+  background: #2a9d8f;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 12px 0;
+}
+
+.ticker-content {
+  display: inline-block;
+  animation: scroll-left 20s linear infinite;
+  color: white;
+  font-size: 0.9rem;
+}
+
+@keyframes scroll-left {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
+}
+
+/* Venues Section */
+.venues-section {
+  padding: 80px 40px;
+  background: white;
+}
+
+.venues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.venue-card {
+  height: 180px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.venue-card:hover {
+  transform: translateY(-4px);
+}
+
+.venue-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.venue-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+}
+
+.venue-overlay h3 {
+  color: white;
+  margin: 0;
+}
+
+.venue-city {
+  color: #2a9d8f;
+  font-size: 0.85rem;
+  margin: 4px 0;
+}
+
+.venue-matches {
+  color: white;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+/* Trust Badges New */
+.trust-badges-new {
+  padding: 80px 40px;
+  background: white;
+  text-align: center;
+}
+
+.badges-container {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.trust-badge-new {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 200px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.trust-badge-new h4 {
+  color: #0a2342;
+  margin: 12px 0 8px;
+}
+
+.trust-badge-new p {
+  color: #666;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* Host Countries */
+.host-countries {
+  padding: 60px 40px;
+  background: #0a2342;
+  text-align: center;
+  color: white;
+}
+
+.host-countries h2 {
+  margin-bottom: 32px;
+}
+
+.countries-container {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.country-card {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 12px;
+  padding: 24px;
+  min-width: 150px;
+}
+
+.country-flag {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.country-card h3 {
+  color: white;
+  margin: 8px 0;
+}
+
+.country-card p {
+  color: #2a9d8f;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* Testimonials */
+.testimonials {
+  padding: 80px 40px;
+  background: #f4f6f9;
+  text-align: center;
+}
+
+.testimonials-container {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.testimonial-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 300px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+}
+
+.stars {
+  color: #ffd700;
+  margin-bottom: 8px;
+}
+
+.testimonial-text {
+  color: #555;
+  font-style: italic;
+  margin: 12px 0;
+}
+
+.testimonial-author {
+  color: #0a2342;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* WhatsApp Section */
+.whatsapp-section {
+  padding: 80px 40px;
+  background: linear-gradient(135deg, #2a9d8f, #0a2342);
+  text-align: center;
+  color: white;
+}
+
+.whatsapp-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.whatsapp-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.whatsapp-section .btn-primary {
+  background: white;
+  color: #0a2342;
+}
+
+.whatsapp-section .btn-secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+/* Section Title */
+.section-title {
+  text-align: center;
+  color: #0a2342;
+  font-weight: bold;
+  margin-bottom: 32px;
+}
+
+/* Detailed Footer */
+.detailed-footer {
+  background: #0a2342;
+  color: white;
+  padding: 60px 40px 30px;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-brand {
+  grid-column: span 1;
+}
+
+.footer-brand h2 {
+  color: white;
+  font-size: 1.8rem;
+  margin: 0 0 12px;
+}
+
+.footer-brand p {
+  color: #aaa;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.footer-links h3,
+.footer-contact h3 {
+  color: white;
+  font-size: 1.1rem;
+  margin: 0 0 16px;
+}
+
+.footer-links a,
+.footer-contact a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin: 8px 0;
+  font-size: 0.95rem;
+}
+
+.footer-links a:hover,
+.footer-contact a:hover {
+  color: #2a9d8f;
+}
+
+.footer-bottom {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.footer-bottom p {
+  color: #888;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
 /* Ensure proper padding on all pages */
 body {
   overflow-x: hidden;
