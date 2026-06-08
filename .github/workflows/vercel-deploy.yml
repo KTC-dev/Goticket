@@ -21,15 +21,9 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel --legacy-peer-deps
 
-      - name: Build
-        run: |
-          cd frontend
-          npm install --legacy-peer-deps --ignore-engines || echo "Install failed, using existing build"
-          npm run build || echo "Build failed, using existing build"
-
       - name: Deploy to Vercel
         run: |
-          vercel --token ${{ secrets.VERCEL_TOKEN }} --org-id ${{ secrets.VERCEL_ORG_ID }} --confirm --no-build --cwd frontend/build
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --org-id ${{ secrets.VERCEL_ORG_ID }} --confirm --no-build frontend/build
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
