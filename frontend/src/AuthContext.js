@@ -55,6 +55,7 @@ export const AuthProvider = ({ children }) => {
         password,
         username: options.username,
         fullName: options.fullName,
+        gender: options.gender,
       }),
     });
     const result = await response.json();

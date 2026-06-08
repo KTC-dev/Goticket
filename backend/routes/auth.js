@@ -196,7 +196,7 @@ const sendWelcomeEmail = async ({ email, fullName, username }) => {
 
 router.post('/register', async (req, res) => {
     try {
-        const { email, password, username, fullName } = req.body;
+        const { email, password, username, fullName, gender } = req.body;
         if (!email || !password) return res.status(400).json({ message: 'Email and password are required' });
 
         const { data, error } = await req.supabase.auth.admin.createUser({
@@ -206,6 +206,7 @@ router.post('/register', async (req, res) => {
             user_metadata: {
                 username,
                 full_name: fullName,
+                gender,
             },
         });
 
@@ -225,6 +226,7 @@ router.post('/register', async (req, res) => {
                     id: userId,
                     username,
                     full_name: fullName,
+                    gender,
                     is_admin: false,
                 },
             ], { onConflict: ['id'] });

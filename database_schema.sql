@@ -50,6 +50,7 @@ CREATE TABLE profiles (
     id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     username VARCHAR(255) UNIQUE NOT NULL,
     full_name VARCHAR(255),
+    gender VARCHAR(10) CHECK (gender IN ('male', 'female', 'other')),
     avatar_url TEXT,
     website TEXT,
     -- Note: password is handled by auth.users, not stored here

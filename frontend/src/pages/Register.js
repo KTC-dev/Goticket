@@ -9,6 +9,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
+  const [gender, setGender] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -23,7 +24,8 @@ const Register = () => {
     try {
       const result = await signUp(email, password, {
         username,
-        fullName
+        fullName,
+        gender
       });
       
       // Auto-login after successful registration
@@ -89,6 +91,20 @@ const Register = () => {
               onChange={(e) => setFullName(e.target.value)}
               required
             />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="gender">Gender:</label>
+            <select
+              id="gender"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <option value="">Select gender (optional)</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
           </div>
           
           <div className="form-group">
