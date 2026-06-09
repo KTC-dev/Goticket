@@ -18,6 +18,16 @@ jobs:
           node-version: 24
           cache: 'false'
 
+      - name: Install Dependencies
+        run: |
+          cd frontend
+          npm install --legacy-peer-deps
+
+      - name: Build
+        run: |
+          cd frontend
+          npm run build
+
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
 
