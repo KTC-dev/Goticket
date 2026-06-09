@@ -1,3 +1,19 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -748,6 +764,8 @@ html {
   background-size: cover;
   background-position: center;
   position: relative;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .hero-overlay {
@@ -766,6 +784,7 @@ html {
   text-align: center;
   color: white;
   max-width: 800px;
+  width: 100%;
   padding: 0 20px;
   animation: fadeInUp 0.8s ease-out;
 }
@@ -858,6 +877,9 @@ html {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  max-width: 100%;
+  overflow-x: hidden;
+}
   gap: 0;
 }
 
@@ -890,6 +912,8 @@ html {
 .featured-matches {
   padding: 80px 40px;
   background: white;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .matches-scroll {
@@ -898,6 +922,7 @@ html {
   gap: 16px;
   padding: 20px 0;
   scrollbar-width: none;
+  max-width: 100%;
 }
 
 .matches-scroll::-webkit-scrollbar {
@@ -1012,6 +1037,7 @@ html {
   overflow: hidden;
   white-space: nowrap;
   padding: 12px 0;
+  max-width: 100%;
 }
 
 .ticker-content {
@@ -1030,6 +1056,7 @@ html {
 .venues-section {
   padding: 80px 40px;
   background: white;
+  max-width: 100%;
 }
 
 .venues-grid {
@@ -1089,6 +1116,8 @@ html {
   padding: 80px 40px;
   background: white;
   text-align: center;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .badges-container {
@@ -1127,6 +1156,8 @@ html {
   background: #0a2342;
   text-align: center;
   color: white;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .host-countries h2 {
@@ -1182,6 +1213,8 @@ html {
   padding: 80px 40px;
   background: #f4f6f9;
   text-align: center;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .testimonials-container {
@@ -1228,6 +1261,8 @@ html {
   background: linear-gradient(135deg, #2a9d8f, #0a2342);
   text-align: center;
   color: white;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .whatsapp-content {
