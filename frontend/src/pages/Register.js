@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth } from '../AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Register = () => {
   const { signUp, signIn } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const message = location.state?.message || '';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
@@ -12,7 +14,7 @@ const Register = () => {
   const [gender, setGender] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [success, setSuccess] = useState(message);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {

@@ -819,9 +819,9 @@ html {
 /* New Countdown Timer (single row) */
 .countdown-timer {
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  gap: 0;
+  gap: 8px;
 }
 
 .countdown-item {
@@ -830,7 +830,7 @@ html {
   align-items: center;
   background: rgba(0,0,0,0.3);
   padding: 12px 20px;
-  min-width: 100px;
+  min-width: 70px;
 }
 
 .countdown-number {
@@ -1049,7 +1049,7 @@ html {
 }
 
 .venue-card:hover {
-  transform: translateY(-4px);
+  transform: scale(1.02);
 }
 
 .venue-card img {
@@ -1092,17 +1092,21 @@ html {
 }
 
 .badges-container {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
-  flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+  .badges-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 }
 
 .trust-badge-new {
   background: white;
   border-radius: 12px;
   padding: 24px;
-  max-width: 200px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
@@ -1131,17 +1135,29 @@ html {
 
 .countries-container {
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .country-card {
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.2);
   border-radius: 12px;
-  padding: 24px;
-  min-width: 150px;
+  padding: 16px;
+  flex: 1;
+  max-width: 150px;
+}
+
+@media (max-width: 768px) {
+  .countries-container {
+    flex-direction: row;
+    gap: 8px;
+  }
+  
+  .country-card {
+    padding: 12px;
+  }
 }
 
 .country-flag {

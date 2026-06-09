@@ -32,6 +32,18 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleMatchClick = () => {
+    if (user) {
+      navigate('/events');
+    } else {
+      navigate('/register', { state: { message: 'Create a free account to book tickets' } });
+    }
+  };
+
+  const handleVenueClick = (venueName) => {
+    navigate('/events', { state: { selectedVenue: venueName } });
+  };
+
   const featuredMatches = [
     { teams: 'Mexico 🇲🇽 vs South Africa 🇿🇦', date: 'June 11', time: '3:00PM ET', venue: 'Estadio Azteca', group: 'Group A' },
     { teams: 'Canada 🇨🇦 vs Bosnia 🇧🇦', date: 'June 12', time: '6:00PM ET', venue: 'BMO Field', group: 'Group B' },
@@ -140,49 +152,65 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 3. FEATURED MATCHES CAROUSEL */}
-      <section className="featured-matches">
-        <h2 className="section-title">🔥 Featured Matches</h2>
-        <div className="matches-scroll">
-          {featuredMatches.map((match, index) => (
-            <div key={index} className="match-card">
-              <div className="match-header">
-                <span className="match-group">{match.group}</span>
-                {match.hot && <span className="match-hot">🔥 HOT</span>}
-              </div>
-              <h3 className="match-teams">{match.teams}</h3>
-              <p className="match-info">{match.date} • {match.time}</p>
-              <p className="match-venue">{match.venue}</p>
-              <span className="match-badge available">Available</span>
-              <button className="btn btn-primary match-btn" onClick={() => navigate('/events')}>Book Now →</button>
-            </div>
-          ))}
-        </div>
-      </section>
+{/* 3. FEATURED MATCHES CAROUSEL */}
+       <section className="featured-matches">
+         <h2 className="section-title">🔥 Featured Matches</h2>
+         <div className="matches-scroll">
+           {featuredMatches.map((match, index) => (
+             <div key={index} className="match-card" onClick={handleMatchClick} style={{cursor: 'pointer'}}>
+               <div className="match-header">
+                 <span className="match-group">{match.group}</span>
+                 {match.hot && <span className="match-hot">🔥 HOT</span>}
+               </div>
+               <h3 className="match-teams">{match.teams}</h3>
+               <p className="match-info">{match.date} • {match.time}</p>
+               <p className="match-venue">{match.venue}</p>
+               <span className="match-badge available">Available</span>
+               <button className="btn btn-primary match-btn" onClick={(e) => { e.stopPropagation(); handleMatchClick(); }}>Book Now →</button>
+             </div>
+           ))}
+         </div>
+       </section>
 
-      {/* 4. HOW IT WORKS SECTION */}
-      <section className="how-it-works">
-        <h2 className="section-title">How It Works</h2>
-        <div className="steps-container">
-          <div className="step-card">
-            <div className="step-icon">🔍</div>
-            <h3>Browse Matches</h3>
-            <p>Search and filter from 104 confirmed World Cup matches across 16 stadiums</p>
-          </div>
-          <div className="step-arrow">→</div>
-          <div className="step-card">
-            <div className="step-icon">💺</div>
-            <h3>Select Your Seats</h3>
-            <p>Choose your ticket quantity, seat section and hospitality options</p>
-          </div>
-          <div className="step-arrow">→</div>
-          <div className="step-card">
-            <div className="step-icon">💬</div>
-            <h3>Pay via WhatsApp</h3>
-            <p>Complete your secure payment through our verified WhatsApp support agent</p>
-          </div>
-        </div>
-      </section>
+{/* 4. HOW IT WORKS SECTION */}
+       <section className="how-it-works">
+         <h2 className="section-title">How It Works</h2>
+         <div className="steps-container">
+           <div className="step-card">
+             <div className="step-icon">
+               <svg viewBox="0 0 24 24" fill="none" stroke="#2a9d8f" strokeWidth="2" width="32" height="32">
+                 <circle cx="11" cy="11" r="8"/>
+                 <path d="M21 21l-4.35-4.35"/>
+               </svg>
+             </div>
+             <h3>Browse Matches</h3>
+             <p>Search and filter from 104 confirmed World Cup matches across 16 stadiums</p>
+           </div>
+           <div className="step-arrow">→</div>
+           <div className="step-card">
+             <div className="step-icon">
+               <svg viewBox="0 0 24 24" fill="none" stroke="#2a9d8f" strokeWidth="2" width="32" height="32">
+                 <path d="M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3"/>
+                 <path d="M2 11v5a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v2H6v-2a2 2 0 0 0-4 0Z"/>
+                 <path d="M4 19v2"/>
+                 <path d="M20 19v2"/>
+               </svg>
+             </div>
+             <h3>Select Your Seats</h3>
+             <p>Choose your ticket quantity, seat section and hospitality options</p>
+           </div>
+           <div className="step-arrow">→</div>
+           <div className="step-card">
+             <div className="step-icon">
+               <svg viewBox="0 0 24 24" fill="none" stroke="#2a9d8f" strokeWidth="2" width="32" height="32">
+                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+               </svg>
+             </div>
+             <h3>Pay via WhatsApp</h3>
+             <p>Complete your secure payment through our verified WhatsApp support agent</p>
+           </div>
+         </div>
+       </section>
 
       {/* 5. LIVE TICKER STRIP */}
       <section className="live-ticker">
@@ -191,22 +219,22 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 6. VENUES SECTION */}
-      <section className="venues-section">
-        <h2 className="section-title">🏟️ Host Venues</h2>
-        <div className="venues-grid">
-          {venues.map((venue, index) => (
-            <div key={index} className="venue-card" onClick={() => navigate('/events')}>
-              <img src={venue.img} alt={venue.name} />
-              <div className="venue-overlay">
-                <h3>{venue.name}</h3>
-                <p className="venue-city">{venue.city}</p>
-                <p className="venue-matches">{venue.matches} matches</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+{/* 6. VENUES SECTION */}
+       <section className="venues-section">
+         <h2 className="section-title">🏟️ Host Venues</h2>
+         <div className="venues-grid">
+           {venues.map((venue, index) => (
+             <div key={index} className="venue-card" onClick={() => handleVenueClick(venue.name)}>
+               <img src={venue.img} alt={venue.name} />
+               <div className="venue-overlay">
+                 <h3>{venue.name}</h3>
+                 <p className="venue-city">{venue.city}</p>
+                 <p className="venue-matches">{venue.matches} matches</p>
+               </div>
+             </div>
+           ))}
+         </div>
+       </section>
 
       {/* 7. TRUST BADGES SECTION */}
       <section className="trust-badges-new">
@@ -228,15 +256,16 @@ const Home = () => {
             <h4>Secure Payments</h4>
             <p>Your payment details are protected at all times</p>
           </div>
-          <div className="trust-badge-new">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2a9d8f" strokeWidth="2">
-              <path d="M2 9l10 12 10-12"/>
-              <path d="M2 9v12"/>
-              <path d="M22 9v12"/>
-            </svg>
-            <h4>Verified Tickets</h4>
-            <p>Every ticket authenticated before delivery to you</p>
-          </div>
+<div className="trust-badge-new">
+             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2a9d8f" strokeWidth="2">
+               <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2z"/>
+               <path d="M13 5v2"/>
+               <path d="M13 11v2"/>
+               <path d="M13 17v2"/>
+             </svg>
+             <h4>Verified Tickets</h4>
+             <p>Every ticket authenticated before delivery to you</p>
+           </div>
           <div className="trust-badge-new">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2a9d8f" strokeWidth="2">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -283,23 +312,22 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 10. WHATSAPP SUPPORT SECTION */}
-      <section className="whatsapp-section">
-        <div className="whatsapp-content">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="#ffffff">
-            <path d="M12.001 21.998c-2.798 0-5.555-.75-8.167-2.188-2.381-1.305-4.381-3.305-5.714-5.714C-.75 13.494-.75 10.714-.75 7.998c0-2.716.917-5.216 2.375-7.216.75-.984 1.584-1.884 2.5-2.7l1.25 1.2c-.75.583-1.417 1.25-1.967 2C4.05 6.38 3.75 7.65 3.75 8.998c0 1.25.25 2.45.75 3.583l7.45 7.45c1.134.5 2.334.75 3.584.75 1.348 0 2.615-.298 3.798-.848l1.2 1.25c-.816.916-1.716 1.75-2.7 2.5C15.486 21.248 13.786 21.998 12.001 21.998z"/>
-            <path d="M17.951 14.998c-.25-.25-1.25-1.25-1.5-1.5-.25-.25-.5-.5-.75-.5-.5 0-1-.25-1.25-.5-.25-.25-.25-.5 0-1l.5-.5c.25-.25.5-.25.75 0l1 1c.25.25.25.5 0 .75l-.5.5c-.25.25-.25.5 0 .75l1.25 1.25c.25.25.5.25.75 0l.5-.5c.25-.25.5-.25.75 0l1.25-1.25c.25-.25.25-.5 0-.75z"/>
-          </svg>
-          <h2>Need Help With Your Tickets?</h2>
-          <p>Our support team is available 24/7 on WhatsApp. Get instant help with payments, seat selection, and ticket confirmation.</p>
-          <div className="whatsapp-buttons">
-            <a href="https://wa.me/message/HYRP6AN7DH7YE1" target="_blank" rel="noopener noreferrer" className="btn btn-primary">💬 Chat on WhatsApp Now</a>
-            <a href="mailto:support@goticket.com" className="btn btn-secondary">📧 Email Support</a>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
+{/* 10. WHATSAPP SUPPORT SECTION */}
+       <section className="whatsapp-section">
+         <div className="whatsapp-content">
+           <svg viewBox="0 0 24 24" fill="white" width="48" height="48">
+             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.25.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.298-.298.497-.099.198.05.371-.025.52-.075.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.198-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.036 7.1 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+           </svg>
+           <h2>Need Help With Your Tickets?</h2>
+           <p>Our support team is available 24/7 on WhatsApp. Get instant help with payments, seat selection, and ticket confirmation.</p>
+           <div className="whatsapp-buttons">
+             <a href="https://wa.me/message/HYRP6AN7DH7YE1" target="_blank" rel="noopener noreferrer" className="btn btn-primary">💬 Chat on WhatsApp Now</a>
+             <a href="mailto:support@goticket.com" className="btn btn-secondary">📧 Email Support</a>
+           </div>
+         </div>
+       </section>
+     </div>
+   );
 };
 
 export default Home;
