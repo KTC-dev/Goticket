@@ -891,8 +891,6 @@ html {
   overflow-x: hidden;
   gap: 0;
 }
-  gap: 0;
-}
 
 .stat-item {
   text-align: center;
