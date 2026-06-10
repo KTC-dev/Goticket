@@ -25,6 +25,7 @@ function HeaderMenu() {
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Don't close if clicking the hamburger button itself
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(false);
       }
@@ -55,7 +56,10 @@ function HeaderMenu() {
       {/* Hamburger Menu Button - on the right */}
       <button 
         className="hamburger-btn"
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsMenuOpen(!isMenuOpen);
+        }}
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
       >
         {isMenuOpen ? '✕' : '☰'}
@@ -63,7 +67,7 @@ function HeaderMenu() {
       
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
-        <nav ref={menuRef} className="mobile-nav">
+        <nav ref={menuRef} className="mobile-nav" onClick={(e) => e.stopPropagation()}>
           <Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>Home</Link>
           <Link to="/events" className="nav-link" onClick={() => setIsMenuOpen(false)}>Events</Link>
           {user ? (
