@@ -105,7 +105,12 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      <div className="App" style={{
+  overflowX: "hidden",
+  width: "100%",
+  maxWidth: "100%",
+  position: "relative"
+}}>
         {/* Mobile-first Header */}
         <header className="App-header">
           {/* Logo/Wordmark - on the left */}

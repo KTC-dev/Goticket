@@ -85,7 +85,12 @@ const Home = () => {
   ];
 
   return (
-    <div className="home-page">
+    <div className="home-page" style={{
+      overflowX: "hidden",
+      width: "100%",
+      maxWidth: "100%",
+      position: "relative"
+    }}>
       {/* 1. HERO SECTION */}
       <section className="hero-section">
         <div className="hero-overlay">

@@ -2,7 +2,11 @@ import React from 'react';
 
 const About = () => {
   return (
-    <div className="about-page">
+    <div className="about-page" style={{
+      overflowX: "hidden",
+      width: "100%",
+      maxWidth: "100%"
+    }}>
       <h2>About Goticket</h2>
       <p>
         Goticket is the official ticketing partner for the FIFA World Cup 2026.

@@ -54,7 +54,11 @@ const Register = () => {
   };
 
   return (
-    <div className="register-page">
+    <div className="register-page" style={{
+      overflowX: "hidden",
+      width: "100%",
+      maxWidth: "100%"
+    }}>
       <div className="register-container">
         <h2>Register for Goticket</h2>
         

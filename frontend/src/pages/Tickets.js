@@ -31,7 +31,11 @@ const Tickets = () => {
   if (loading) return <div className="tickets-page">Loading your tickets...</div>;
 
   return (
-    <div className="tickets-page">
+    <div className="tickets-page" style={{
+      overflowX: "hidden",
+      width: "100%",
+      maxWidth: "100%"
+    }}>
       <h2>My Tickets</h2>
       {tickets.length === 0 ? (
         <>

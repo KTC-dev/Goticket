@@ -25,7 +25,11 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page">
+    <div className="login-page" style={{
+      overflowX: "hidden",
+      width: "100%",
+      maxWidth: "100%"
+    }}>
       <div className="login-container">
         <h2>Login to Goticket</h2>
 

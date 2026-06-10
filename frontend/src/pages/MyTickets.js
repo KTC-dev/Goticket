@@ -62,7 +62,11 @@ const MyTickets = () => {
 
   if (loading) {
     return (
-      <div className="my-tickets-page">
+      <div className="my-tickets-page" style={{
+        overflowX: "hidden",
+        width: "100%",
+        maxWidth: "100%"
+      }}>
         <div className="tickets-content">
           <h2>My Tickets</h2>
           <p>Loading your tickets...</p>
@@ -73,7 +77,11 @@ const MyTickets = () => {
 
   if (error) {
     return (
-      <div className="my-tickets-page">
+      <div className="my-tickets-page" style={{
+        overflowX: "hidden",
+        width: "100%",
+        maxWidth: "100%"
+      }}>
         <div className="tickets-content">
           <h2>My Tickets</h2>
           <p className="error">Error loading tickets: {error}</p>
@@ -89,7 +97,11 @@ const MyTickets = () => {
   }
 
   return (
-    <div className="my-tickets-page">
+    <div className="my-tickets-page" style={{
+      overflowX: "hidden",
+      width: "100%",
+      maxWidth: "100%"
+    }}>
       <div className="tickets-header">
         <h2>My Tickets</h2>
         <p>Your purchased tickets for FIFA World Cup 2026</p>

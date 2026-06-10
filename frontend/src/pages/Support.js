@@ -7,7 +7,11 @@ const SECONDARY_SUPPORT_EMAIL = 'mailaptdeployteam@gmail.com';
 
 const Support = () => {
     return (
-        <div className="about-page support-page">
+        <div className="about-page support-page" style={{
+          overflowX: "hidden",
+          width: "100%",
+          maxWidth: "100%"
+        }}>
             <h2>Support & Customer Care</h2>
             <p>
                 Need help with payments, tickets, or account questions? Our customer care team is available to assist you.

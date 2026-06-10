@@ -255,7 +255,11 @@ const Events = () => {
   if (error) return <div className="events-page">Error: {error}</div>;
 
   return (
-    <div className="events-page">
+    <div className="events-page" style={{
+      overflowX: "hidden",
+      width: "100%",
+      maxWidth: "100%"
+    }}>
       <div className="events-header">
         <h2>FIFA World Cup 2026 Events</h2>
         <div className="events-controls">
