@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Events from './pages/Events';
@@ -17,34 +17,9 @@ import { useAuth } from './AuthContext';
 // Menu component with internal state management
 function HeaderMenu() {
   const { user } = useAuth();
-  const userName = user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
+  const userName = user?.user_metadata?.fullName || user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef(null);
   const location = useLocation();
-
-  // Close menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      // Don't close if clicking the hamburger button itself
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    const handleEscapeKey = (event) => {
-      if (event.key === 'Escape') {
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEscapeKey);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscapeKey);
-    };
-  }, []);
 
   // Close menu on route change
   useEffect(() => {
@@ -54,36 +29,117 @@ function HeaderMenu() {
   return (
     <>
       {/* Hamburger Menu Button - on the right */}
-      <button 
-        className="hamburger-btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsMenuOpen(!isMenuOpen);
+      <button
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        aria-label="Menu"
+        style={{
+          background: 'none',
+          border: 'none',
+          color: 'white',
+          fontSize: '1.8rem',
+          cursor: 'pointer',
+          padding: '4px',
+          borderRadius: '4px'
         }}
-        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
       >
         {isMenuOpen ? '✕' : '☰'}
       </button>
-      
+
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
-        <nav ref={menuRef} className="mobile-nav" onClick={(e) => e.stopPropagation()}>
-          <Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>Home</Link>
-          <Link to="/events" className="nav-link" onClick={() => setIsMenuOpen(false)}>Events</Link>
-          {user ? (
-            <>
-              <Link to="/tickets" className="nav-link" onClick={() => setIsMenuOpen(false)}>My Tickets</Link>
-              <Link to="/logout" className="nav-link" onClick={() => setIsMenuOpen(false)}>Logout ({userName})</Link>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="nav-link" onClick={() => setIsMenuOpen(false)}>Login</Link>
-              <Link to="/register" className="nav-link" onClick={() => setIsMenuOpen(false)}>Register</Link>
-            </>
-          )}
-          <Link to="/support" className="nav-link" onClick={() => setIsMenuOpen(false)}>Support</Link>
-          <Link to="/about" className="nav-link" onClick={() => setIsMenuOpen(false)}>About</Link>
-        </nav>
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9998,
+            background: 'rgba(0,0,0,0.5)'
+          }}
+          onClick={() => setIsMenuOpen(false)}
+        >
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              right: 0,
+              height: '100vh',
+              width: '75%',
+              maxWidth: '300px',
+              backgroundColor: '#0a2342',
+              zIndex: 9999,
+              padding: '24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              style={{
+                alignSelf: 'flex-end',
+                color: 'white',
+                fontSize: '24px',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              ✕
+            </button>
+
+            <Link to="/" onClick={() => setIsMenuOpen(false)} style={{ color: 'white', textDecoration: 'none' }}>
+              Home
+            </Link>
+            <Link to="/events" onClick={() => setIsMenuOpen(false)} style={{ color: 'white', textDecoration: 'none' }}>
+              Events
+            </Link>
+            {user ? (
+              <>
+                <Link to="/tickets" onClick={() => setIsMenuOpen(false)} style={{ color: 'white', textDecoration: 'none' }}>
+                  My Tickets
+                </Link>
+                <Link to="/logout" onClick={() => setIsMenuOpen(false)} style={{ color: 'white', textDecoration: 'none' }}>
+                  Logout ({userName})
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/login" onClick={() => setIsMenuOpen(false)} style={{ color: 'white', textDecoration: 'none' }}>
+                  Login
+                </Link>
+                <Link to="/register" onClick={() => setIsMenuOpen(false)} style={{ color: 'white', textDecoration: 'none' }}>
+                  Register
+                </Link>
+              </>
+            )}
+            <Link to="/support" onClick={() => setIsMenuOpen(false)} style={{ color: 'white', textDecoration: 'none' }}>
+              Support
+            </Link>
+            <Link to="/about" onClick={() => setIsMenuOpen(false)} style={{ color: 'white', textDecoration: 'none' }}>
+              About
+            </Link>
+
+            <a
+              href="https://wa.me/message/HYRP6AN7DH7YE1"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: '#2a9d8f',
+                color: 'white',
+                padding: '12px',
+                borderRadius: '8px',
+                textAlign: 'center',
+                marginTop: 'auto',
+                textDecoration: 'none'
+              }}
+            >
+              Chat with Support
+            </a>
+          </div>
+        </div>
       )}
     </>
   );
@@ -105,7 +161,7 @@ function Logout() {
 
 function App() {
   const { user } = useAuth();
-  const userName = user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
+  const userName = user?.user_metadata?.fullName || user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
 
   return (
     <Router>

@@ -2,7 +2,8 @@
   "name": "frontend",
   "version": "1.0.1",
   "description": "Frontend for Goticket FIFA World Cup ticketing system",
-  "main": "src/index.js",
+  "private": true,
+  "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
