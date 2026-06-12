@@ -15,6 +15,18 @@ const Events = () => {
   const [purchaseLoading, setPurchaseLoading] = useState(new Set()); // Track which events are being purchased
   const [paymentInfo, setPaymentInfo] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
+
+  // Helper to check match status
+  const getMatchStatus = (eventDate) => {
+    const now = new Date();
+    const eventTime = new Date(eventDate);
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const eventDay = new Date(eventTime.getFullYear(), eventTime.getMonth(), eventTime.getDate());
+
+    if (eventTime < now) return 'completed';
+    if (eventDay.getTime() === today.getTime()) return 'live';
+    return 'upcoming';
+  };
   
   // Quantity state for each event (keyed by event ID)
   const [quantities, setQuantities] = useState({});
@@ -337,9 +349,10 @@ const Events = () => {
           {filteredEvents.map(event => {
             const quantity = quantities[event.id] || 1;
             const totalPrice = (event.price * quantity).toFixed(2);
-            
+            const matchStatus = getMatchStatus(event.date);
+
             return (
-              <div key={event.id} className="event-card">
+              <div key={event.id} className="event-card" style={matchStatus === 'completed' ? {opacity: 0.7} : {}}>
                 <h3>{event.title}</h3>
                 <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
                 <p><strong>Time:</strong> {event.time}</p>
@@ -347,22 +360,50 @@ const Events = () => {
                 <p><strong>Teams:</strong> {event.teams.join(' vs ')}</p>
                 <p><strong>Price:</strong> ${event.price}</p>
                 <p><strong>Available Tickets:</strong> {event.available_tickets}</p>
-                
-                {/* Stock Status Badge */}
-                {event.available_tickets === 0 && (
+
+                {/* Match Status Badge */}
+                {matchStatus === 'completed' && (
+                  <span className="match-badge" style={{
+                    display: 'inline-block',
+                    padding: '4px 12px',
+                    borderRadius: '12px',
+                    fontSize: '0.8rem',
+                    margin: '8px 0',
+                    backgroundColor: '#9e9e9e',
+                    color: 'white'
+                  }}>✅ Completed</span>
+                )}
+
+                {matchStatus === 'live' && (
+                  <span className="match-badge" style={{
+                    display: 'inline-block',
+                    padding: '4px 12px',
+                    borderRadius: '12px',
+                    fontSize: '0.8rem',
+                    margin: '8px 0',
+                    backgroundColor: '#f44336',
+                    color: 'white',
+                    animation: 'pulse 1s infinite'
+                  }}>🔴 LIVE NOW</span>
+                )}
+
+                {/* Stock Status Badge (only for upcoming) */}
+                {matchStatus === 'upcoming' && event.available_tickets === 0 && (
                   <span className="badge badge-sold-out">Sold Out</span>
                 )}
-                {event.available_tickets > 0 && event.available_tickets <= 100 && (
+                {matchStatus === 'upcoming' && event.available_tickets > 0 && event.available_tickets <= 100 && (
                   <span className="badge badge-low-stock">Almost Gone!</span>
                 )}
-                {event.available_tickets > 100 && (
+                {matchStatus === 'upcoming' && event.available_tickets > 100 && (
                   <span className="badge badge-available">Available</span>
                 )}
-                
+
                 <p className="hospitality-note">Upgrade to hospitality for a premium matchday experience.</p>
 
                 <div className="event-actions">
-                  {event.available_tickets > 0 ? (
+                  {matchStatus === 'completed' ? (
+                    <button className="buy-button disabled" disabled style={{opacity: 0.5, cursor: 'not-allowed'}}>Match Completed</button>
+                  ) : event.available_tickets > 0 ? (
                     <>
                       {/* Quantity Selector */}
                       <div className="quantity-selector">
@@ -380,9 +421,9 @@ const Events = () => {
                           +
                         </button>
                       </div>
-                      
+
                       <p className="total-price">Total: ${totalPrice}</p>
-                      
+
                       <button
                         className="buy-button"
                         onClick={() => handleBuyTicket(event.id)}

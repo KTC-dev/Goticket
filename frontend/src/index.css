@@ -1336,3 +1336,9 @@ html {
 body {
   overflow-x: hidden;
 }
+
+/* Pulse animation for LIVE badge */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}

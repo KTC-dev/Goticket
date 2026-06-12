@@ -5,12 +5,46 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const userName = user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
+  const userName = user?.user_metadata?.fullName || user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [nextMatch, setNextMatch] = useState(null);
+  const apiBase = process.env.REACT_APP_API_URL || 'https://goticket-2j51.onrender.com';
 
   useEffect(() => {
+    const fetchEventsAndCountdown = async () => {
+      try {
+        const response = await fetch(`${apiBase}/api/events`);
+        if (!response.ok) return;
+        const data = await response.json();
+
+        const now = new Date();
+        const upcomingMatches = data
+          .map(event => ({
+            ...event,
+            teamsText: event.teams.join(' vs '),
+            eventDate: new Date(event.date)
+          }))
+          .filter(event => event.eventDate > now)
+          .sort((a, b) => a.eventDate - b.eventDate);
+
+        if (upcomingMatches.length > 0) {
+          setNextMatch(upcomingMatches[0]);
+        } else {
+          setNextMatch(null);
+        }
+      } catch (err) {
+        console.error('Failed to fetch events for countdown:', err);
+      }
+    };
+
+    fetchEventsAndCountdown();
+  }, []);
+
+  useEffect(() => {
+    if (!nextMatch) return;
+
     const updateCountdown = () => {
-      const targetDate = new Date('June 11, 2026 00:00:00').getTime();
+      const targetDate = nextMatch.eventDate.getTime();
       const now = new Date().getTime();
       const diff = targetDate - now;
 
@@ -30,7 +64,7 @@ const Home = () => {
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [nextMatch]);
 
   const handleMatchClick = () => {
     if (user) {
@@ -42,6 +76,23 @@ const Home = () => {
 
   const handleVenueClick = (venueName) => {
     navigate('/events', { state: { selectedVenue: venueName } });
+  };
+
+  // Helper to check match status
+  const getMatchStatus = (dateStr) => {
+    const now = new Date();
+    // Parse the date string (e.g., "June 11" -> June 12, 2026 since that's the tournament year)
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const parts = dateStr.split(' ');
+    const monthName = parts[0];
+    const day = parseInt(parts[1], 10);
+    const monthIndex = months.indexOf(monthName);
+    const eventDate = new Date(2026, monthIndex, day);
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    if (eventDate < now) return 'completed';
+    if (eventDate.getTime() === today.getTime()) return 'live';
+    return 'upcoming';
   };
 
   const featuredMatches = [
@@ -104,27 +155,39 @@ const Home = () => {
               <a href="/events" className="btn btn-primary hero-btn">🎟️ Get Tickets</a>
               <a href="/events" className="btn btn-secondary hero-btn">📅 View Schedule</a>
             </div>
-            <div className="countdown-timer">
-              <div className="countdown-item">
-                <span className="countdown-number">{countdown.days}</span>
-                <span className="countdown-label">DAYS</span>
+
+            {nextMatch ? (
+              <>
+                <p style={{marginTop: '12px', fontSize: '0.95rem', color: '#2a9d8f'}}>
+                  ⏰ Next Match Starts In: {nextMatch.teamsText}
+                </p>
+                <div className="countdown-timer">
+                  <div className="countdown-item">
+                    <span className="countdown-number">{countdown.days}</span>
+                    <span className="countdown-label">DAYS</span>
+                  </div>
+                  <div className="countdown-divider"></div>
+                  <div className="countdown-item">
+                    <span className="countdown-number">{countdown.hours}</span>
+                    <span className="countdown-label">HOURS</span>
+                  </div>
+                  <div className="countdown-divider"></div>
+                  <div className="countdown-item">
+                    <span className="countdown-number">{countdown.minutes}</span>
+                    <span className="countdown-label">MINUTES</span>
+                  </div>
+                  <div className="countdown-divider"></div>
+                  <div className="countdown-item">
+                    <span className="countdown-number">{countdown.seconds}</span>
+                    <span className="countdown-label">SECONDS</span>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div style={{marginTop: '24px', fontSize: '1.2rem', color: '#2a9d8f'}}>
+                🏆 FIFA World Cup 2026 is underway!
               </div>
-              <div className="countdown-divider"></div>
-              <div className="countdown-item">
-                <span className="countdown-number">{countdown.hours}</span>
-                <span className="countdown-label">HOURS</span>
-              </div>
-              <div className="countdown-divider"></div>
-              <div className="countdown-item">
-                <span className="countdown-number">{countdown.minutes}</span>
-                <span className="countdown-label">MINUTES</span>
-              </div>
-              <div className="countdown-divider"></div>
-              <div className="countdown-item">
-                <span className="countdown-number">{countdown.seconds}</span>
-                <span className="countdown-label">SECONDS</span>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
@@ -161,19 +224,47 @@ const Home = () => {
        <section className="featured-matches">
          <h2 className="section-title">🔥 Featured Matches</h2>
          <div className="matches-scroll">
-           {featuredMatches.map((match, index) => (
-             <div key={index} className="match-card" onClick={handleMatchClick} style={{cursor: 'pointer'}}>
-               <div className="match-header">
-                 <span className="match-group">{match.group}</span>
-                 {match.hot && <span className="match-hot">🔥 HOT</span>}
-               </div>
-               <h3 className="match-teams">{match.teams}</h3>
-               <p className="match-info">{match.date} • {match.time}</p>
-               <p className="match-venue">{match.venue}</p>
-               <span className="match-badge available">Available</span>
-               <button className="btn btn-primary match-btn" onClick={(e) => { e.stopPropagation(); handleMatchClick(); }}>Book Now →</button>
-             </div>
-           ))}
+{featuredMatches.map((match, index) => {
+            const matchStatus = getMatchStatus(match.date);
+            return (
+              <div key={index} className="match-card" onClick={handleMatchClick} style={{cursor: 'pointer', opacity: matchStatus === 'completed' ? 0.7 : 1}}>
+                <div className="match-header">
+                  <span className="match-group">{match.group}</span>
+                  {matchStatus === 'completed' && (
+                    <span className="match-badge" style={{
+                      display: 'inline-block',
+                      padding: '4px 12px',
+                      borderRadius: '12px',
+                      fontSize: '0.8rem',
+                      backgroundColor: '#9e9e9e',
+                      color: 'white'
+                    }}>✅ Completed</span>
+                  )}
+                  {matchStatus === 'live' && (
+                    <span className="match-badge" style={{
+                      display: 'inline-block',
+                      padding: '4px 12px',
+                      borderRadius: '12px',
+                      fontSize: '0.8rem',
+                      backgroundColor: '#f44336',
+                      color: 'white',
+                      animation: 'pulse 1s infinite'
+                    }}>🔴 LIVE NOW</span>
+                  )}
+                  {matchStatus === 'upcoming' && match.hot && <span className="match-hot">🔥 HOT</span>}
+                </div>
+                <h3 className="match-teams">{match.teams}</h3>
+                <p className="match-info">{match.date} • {match.time}</p>
+                <p className="match-venue">{match.venue}</p>
+                {matchStatus === 'upcoming' && <span className="match-badge available">Available</span>}
+                {matchStatus !== 'completed' ? (
+                  <button className="btn btn-primary match-btn" onClick={(e) => { e.stopPropagation(); handleMatchClick(); }}>Book Now →</button>
+                ) : (
+                  <button className="buy-button disabled" disabled style={{opacity: 0.5, cursor: 'not-allowed'}}>Match Completed</button>
+                )}
+              </div>
+            );
+          })}
          </div>
        </section>
 
